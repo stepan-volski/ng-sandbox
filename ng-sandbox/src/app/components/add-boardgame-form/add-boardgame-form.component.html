@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>Add New BoardGame</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="addGame(newBoardgame)" #newBoardgame="ngForm">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput name="name" ngModel required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select name="type" ngModel required>
+        <mat-option value="euro">Euro</mat-option>
+        <mat-option value="amero">Amero</mat-option>
+        <mat-option value="party">Party</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Times Played</mat-label>
+      <input matInput name="timesPlayed" ngModel required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date Purchased</mat-label>
+      <input matInput [matDatepicker]="picker" name="date" ngModel required>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button mat-dialog-close color="primary" type="submit" [disabled]="!newBoardgame.valid">Add Game</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </form>
+</div>
+<!-- <div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div> -->
+
+

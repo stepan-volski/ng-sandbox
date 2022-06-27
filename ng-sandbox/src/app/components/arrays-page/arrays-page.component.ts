@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ArraysService } from 'src/app/arrays.service';
+import { ArraysService } from 'src/app/services/arrays.service';
 
 @Component({
   selector: 'app-arrays-page',

@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="controls">
+    <section>
+      <h4>Filter Type: </h4>
+      <mat-button-toggle-group [(ngModel)]="filterType">
+        <mat-button-toggle value="all">All</mat-button-toggle>
+        <mat-button-toggle value="euro">Euro</mat-button-toggle>
+        <mat-button-toggle value="party">Party</mat-button-toggle>
+        <mat-button-toggle value="amero">Amero</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section>
+      <h4>Sort Direction: </h4>
+      <mat-button-toggle-group [(ngModel)]="sortDirection">
+        <mat-button-toggle value="asc" (change)="sort()">Ascending</mat-button-toggle>
+        <mat-button-toggle value="desc" (change)="sort()">Descending</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section>
+      <h4>Sort Type: </h4>
+      <mat-button-toggle-group [(ngModel)]="sortType">
+        <mat-button-toggle value="none" (change)="sort()">None</mat-button-toggle>
+        <mat-button-toggle value="name" (change)="sort()">Name</mat-button-toggle>
+        <mat-button-toggle value="date" (change)="sort()">Date</mat-button-toggle>
+        <mat-button-toggle value="playTime" (change)="sort()">Play Time</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section>
+      <button mat-raised-button color="primary" (click)="addGame()">Add New Game</button>
+    </section>
+
+    <a [href]="bgServ.getJsonExportLink()" download="boardgames.json">Download Json</a>
+
+  </div>
+  <div class="cards">
+    <app-game-card *ngFor="let game of boardgames | filter: filterType" [game] = "game"></app-game-card>
+  </div>
+</div>
