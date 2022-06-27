@@ -1,12 +1,12 @@
-.example-full-width {
-  width: 30%;
-}
-
 .operations{
   display: flex;
   flex-direction: column;
-  width: 30%;
   button{
     margin: 5px;
   }
+}
+
+.card{
+  margin: 25px;
+  min-width: 25vw;
 }
