@@ -3,3 +3,25 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+.control-section {
+  h3{
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  margin-bottom: 25px;
+}
+
+.container{
+  display: flex;
+}
+
+.fixedElement {
+  position: sticky;
+  top: 10px;
+}
+
+.mat-raised-button{
+  margin-left: 10px;
+}

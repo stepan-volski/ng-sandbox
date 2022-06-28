@@ -62,12 +62,4 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-
-  //todo:
-  //navigation design
-  //card design
-  //games page design
-  // import json
-  //add game form design
-
 }
