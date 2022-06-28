@@ -1,0 +1,15 @@
+<mat-card class="card" [style.border-color]="setBorderColor()">
+  <mat-card-header>
+    <mat-card-title>{{game.name}}</mat-card-title>
+    <mat-card-subtitle>{{game.type}} game</mat-card-subtitle>
+  </mat-card-header>
+
+  <div class="thumbnail">
+    <img src="https://www.iconbunny.com/icons/media/catalog/product/2/5/2544.12-dice-icon-iconbunny.jpg" alt="Game thumbnail">
+  </div>
+
+  <mat-card-content>
+    <p>Purchased on {{game.purchaseDate | date}}</p>
+    <p>Played {{game.timesPlayed}} times</p>
+  </mat-card-content>
+</mat-card>

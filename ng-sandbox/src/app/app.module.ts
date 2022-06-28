@@ -11,12 +11,28 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import { BoardgamePageComponent } from './components/boardgame-page/boardgame-page.component';
+import { FilterPipe } from './filter.pipe';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { AddBoardgameFormComponent } from './components/add-boardgame-form/add-boardgame-form.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { GameCardComponent } from './components/game-card/game-card.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     ArraysPageComponent,
+    BoardgamePageComponent,
+    FilterPipe,
+    AddBoardgameFormComponent,
+    GameCardComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +43,13 @@ import {MatCardModule} from '@angular/material/card';
     MatDividerModule,
     MatRadioModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

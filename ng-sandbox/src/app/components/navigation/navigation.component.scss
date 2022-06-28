@@ -1,0 +1,13 @@
+.nav{
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 60vw;
+}
+
+li{
+  cursor: pointer;
+  list-style-type: none;
+  display: inline;
+  margin: 15px;
+}
