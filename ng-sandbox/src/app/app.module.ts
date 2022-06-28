@@ -22,6 +22,10 @@ import { AddBoardgameFormComponent } from './components/add-boardgame-form/add-b
 import {MatDialogModule} from '@angular/material/dialog';
 import { GameCardComponent } from './components/game-card/game-card.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
+import {MatIconModule} from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -30,9 +34,11 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     ArraysPageComponent,
     BoardgamePageComponent,
     FilterPipe,
+    SearchPipe,
     AddBoardgameFormComponent,
     GameCardComponent,
     NavigationComponent,
+    FileUploaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +55,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

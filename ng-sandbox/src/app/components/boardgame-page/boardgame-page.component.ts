@@ -18,6 +18,7 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
   sortType: 'name' | 'date' | 'playTime' | 'none' = 'none';
   filterType: BoardgameType | 'all' = 'all';
   subscription: Subscription | null = null;
+  searchRequest: string = '';
 
   constructor(public dialog: MatDialog, public bgServ: BoardgamesService) {}
 
@@ -32,7 +33,7 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
     )
   }
 
-  sort() {
+  sort(){
     switch (this.sortType) {
       case 'name':
         this.sortDirection === 'asc'
