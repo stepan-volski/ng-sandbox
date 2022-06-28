@@ -27,10 +27,17 @@
         <mat-button-toggle value="playTime" (change)="sort()">Play Time</mat-button-toggle>
       </mat-button-toggle-group>
     </section>
+
+    <section class="control-section">
+      <h3>Search: </h3>
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Search by name" [(ngModel)]="searchRequest">
+      </mat-form-field>
+    </section>
   </div>
 
   <div class="cards">
-    <app-game-card *ngFor="let game of boardgames | filter: filterType" [game] = "game"></app-game-card>
+    <app-game-card *ngFor="let game of boardgames | filter: filterType | search: searchRequest" [game] = "game"></app-game-card>
   </div>
 
   <div class="actions">
@@ -39,5 +46,7 @@
       <a mat-raised-button color="primary" [href]="bgServ.getJsonExportLink()" download="boardgames.json">Download Json</a>
     </section>
   </div>
+
+  <app-file-uploader></app-file-uploader>
 
 </div>
