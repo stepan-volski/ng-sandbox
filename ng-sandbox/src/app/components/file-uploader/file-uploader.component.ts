@@ -18,26 +18,16 @@ export class FileUploaderComponent {
     const uploadUrl = 'https://angular-test-987db-default-rtdb.firebaseio.com/games.json'
 
     if (file) {
-      console.log(file);
       this.fileName = file.name;
-      // const payload = JSON.stringify(boardgames);
-      // this.http.put(uploadUrl, payload).subscribe(
-      //   response => {
-      //     console.log(response);
-      //   }
-      // );
+      let formData = new FormData();
+      formData.append(this.fileName, file);
+      console.log(formData.get(this.fileName));
+
+      this.http.post(uploadUrl, formData).subscribe(
+        response => {
+          console.log(response);
+        }
+      );
     }
-
-
-    // if (file) {
-    //   this.fileName = file.name;
-    //   const formData = new FormData();
-    //   formData.append(this.fileName, file);
-    //   const upload$ = this.http.post(uploadUrl, formData).subscribe(
-    //     response => {
-    //       console.log(response);
-    //     }
-    //   );
-    // }
   }
 }
