@@ -34,10 +34,15 @@
         <input matInput placeholder="Search by name" [(ngModel)]="searchRequest">
       </mat-form-field>
     </section>
+
+    <section class="control-section">
+      <h3>Displayed Items: {{displayedItems}}</h3>
+    </section>
   </div>
 
-  <div class="cards">
+  <div class="cards" >
     <app-game-card *ngFor="let game of boardgames | filter: filterType | search: searchRequest" [game] = "game"></app-game-card>
+    <div class="placeholder" *ngIf="!displayedItems">There are no items</div>
   </div>
 
   <div class="actions">
