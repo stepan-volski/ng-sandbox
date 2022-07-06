@@ -43,10 +43,11 @@
   <div class="actions">
     <section class="fixedElement">
       <button mat-raised-button color="primary" (click)="addGame()">Add New Game</button>
-      <a mat-raised-button color="primary" [href]="bgServ.getJsonExportLink()" download="boardgames.json">Download Json</a>
+      <a mat-raised-button color="primary" [href]="bgServ.getGamesExportLink()" download="boardgames.json">Export Games</a>
+    </section>
+    <section>
+      <app-file-uploader></app-file-uploader>
     </section>
   </div>
-
-  <app-file-uploader></app-file-uploader>
 
 </div>

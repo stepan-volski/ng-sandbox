@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
 import {MatDialog} from '@angular/material/dialog';
@@ -47,8 +47,8 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
         break;
       case 'date':
         this.sortDirection === 'asc'
-          ? this.boardgames.sort((a, b) => a.purchaseDate.getTime() - b.purchaseDate.getTime())
-          : this.boardgames.sort((a, b) => b.purchaseDate.getTime() - a.purchaseDate.getTime());
+          ? this.boardgames.sort((a, b) => Date.parse(a.purchaseDate) - Date.parse(b.purchaseDate))
+          : this.boardgames.sort((a, b) => Date.parse(b.purchaseDate) - Date.parse(a.purchaseDate));
         break;
       case 'none': this.boardgames = this.bgServ.getBoardgames();
         break;
@@ -64,3 +64,7 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
   }
 
 }
+
+//TODO
+//add items counter
+//add placeholder for no items
