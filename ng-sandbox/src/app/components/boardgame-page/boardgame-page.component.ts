@@ -1,39 +1,55 @@
-import { AfterContentInit, Component, ContentChildren, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
 import {MatDialog} from '@angular/material/dialog';
 import { AddBoardgameFormComponent } from '../add-boardgame-form/add-boardgame-form.component';
 import { BoardgamesService } from 'src/app/services/boardgames.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { GameCardComponent } from '../game-card/game-card.component';
 
 @Component({
   selector: 'app-boardgame-page',
   templateUrl: './boardgame-page.component.html',
   styleUrls: ['./boardgame-page.component.scss'],
 })
-export class BoardgamePageComponent implements OnInit, OnDestroy {
-
+export class BoardgamePageComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
+  @ViewChildren(GameCardComponent) cards!: QueryList<GameCardComponent>;
+  gamesChangedSub!: Subscription;
+  filterSub!: Subscription;
   boardgames: Boardgame[] = [];
   sortDirection: 'asc' | 'desc' = 'asc';
   sortType: 'name' | 'date' | 'playTime' | 'none' = 'none';
   filterType: BoardgameType | 'all' = 'all';
-  subscription: Subscription | null = null;
   searchRequest: string = '';
+  displayedItems!: number;
 
-  constructor(public dialog: MatDialog, public bgServ: BoardgamesService) {}
+  constructor(
+    public dialog: MatDialog,
+    public bgServ: BoardgamesService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.boardgames = this.bgServ.getBoardgames();
 
-    this.subscription = this.bgServ.gamesChanged.subscribe(
+    this.gamesChangedSub = this.bgServ.gamesChanged.subscribe(
       (games: Boardgame[]) => {
         this.boardgames = games;
         this.sort();
       }
-    )
+    );
   }
 
-  sort(){
+  ngAfterViewInit(): void {
+    this.filterSub = this.cards.changes.subscribe((value) => {
+      this.displayedItems = value.length;
+      this.cd.detectChanges();
+    });
+  }
+
+  sort() {
     switch (this.sortType) {
       case 'name':
         this.sortDirection === 'asc'
@@ -50,21 +66,18 @@ export class BoardgamePageComponent implements OnInit, OnDestroy {
           ? this.boardgames.sort((a, b) => Date.parse(a.purchaseDate) - Date.parse(b.purchaseDate))
           : this.boardgames.sort((a, b) => Date.parse(b.purchaseDate) - Date.parse(a.purchaseDate));
         break;
-      case 'none': this.boardgames = this.bgServ.getBoardgames();
+      case 'none':
+        this.boardgames = this.bgServ.getBoardgames();
         break;
     }
   }
 
-  addGame(){
+  addGame() {
     this.dialog.open(AddBoardgameFormComponent);
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.gamesChangedSub.unsubscribe();
+    this.gamesChangedSub.unsubscribe();
   }
-
 }
-
-//TODO
-//add items counter
-//add placeholder for no items
