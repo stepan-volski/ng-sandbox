@@ -21,8 +21,4 @@ export class NavigationComponent implements OnInit {
   this.router.navigate(['/games'])
   }
 
-  goToHome(){
-  this.router.navigate(['/home'])
-  }
-
 }
