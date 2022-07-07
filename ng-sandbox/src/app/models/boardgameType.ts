@@ -1,1 +1,5 @@
-export type BoardgameType =  'euro' | 'amero' | 'party'
+export enum BoardgameType {
+  Euro = "Euro",
+  Amero = "Amero",
+  Party = "Party",
+}

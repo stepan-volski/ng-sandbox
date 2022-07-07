@@ -10,9 +10,9 @@
     <mat-form-field appearance="fill">
       <mat-label>Type</mat-label>
       <mat-select name="type" ngModel required>
-        <mat-option value="euro">Euro</mat-option>
-        <mat-option value="amero">Amero</mat-option>
-        <mat-option value="party">Party</mat-option>
+        <mat-option [value]="boardgameType.Euro">Euro</mat-option>
+        <mat-option [value]="boardgameType.Amero">Amero</mat-option>
+        <mat-option [value]="boardgameType.Party">Party</mat-option>
       </mat-select>
     </mat-form-field>
 

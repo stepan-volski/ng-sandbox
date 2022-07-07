@@ -24,6 +24,7 @@ export class BoardgamePageComponent
   filterType: BoardgameType | 'all' = 'all';
   searchRequest: string = '';
   displayedItems!: number;
+  boardgameType = BoardgameType;
 
   constructor(
     public dialog: MatDialog,

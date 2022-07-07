@@ -1,21 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Boardgame } from './models/boardgame';
+import { BoardgameType } from './models/boardgameType';
 
 @Pipe({
   name: 'filter',
   pure: false
 })
 export class FilterPipe implements PipeTransform {
+  boardgameType = BoardgameType;
 
-  transform(value: Boardgame[], type: string): Boardgame[] {
+  transform(value: Boardgame[], type: BoardgameType | 'all'): Boardgame[] {
     let result: Boardgame[] = [];
 
     switch(type){
-       case 'euro': result = value.filter(e => e.type === 'euro');
+       case this.boardgameType.Euro: result = value.filter(e => e.type === this.boardgameType.Euro);
        break;
-       case 'amero': result = value.filter(e => e.type === 'amero');
+       case this.boardgameType.Amero: result = value.filter(e => e.type === this.boardgameType.Amero);
        break;
-       case 'party': result = value.filter(e => e.type === 'party');
+       case this.boardgameType.Party: result = value.filter(e => e.type === this.boardgameType.Party);
        break;
        case 'all': result = value;
        break;
