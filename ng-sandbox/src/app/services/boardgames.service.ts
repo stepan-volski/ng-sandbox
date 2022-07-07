@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Boardgame } from '../models/boardgame';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class BoardgamesService{
 
   private boardgames: Boardgame[] = [];
   public gamesChanged = new Subject<Boardgame[]>();
-  private gamesUrl = "https://angular-test-987db-default-rtdb.firebaseio.com/games.json";
+  private gamesUrl = environment.gamesApiURL;
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient) {
     this.getGamesFromApi()

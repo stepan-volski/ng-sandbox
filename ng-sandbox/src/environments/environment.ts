@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  gamesApiURL: 'https://angular-test-987db-default-rtdb.firebaseio.com/games.json',
 };
 
 /*
