@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Boardgame } from './models/boardgame';
-import { BoardgameType } from './models/boardgameType';
+import { Boardgame, BoardgameType } from '../../public-api';
+
 
 @Pipe({
   name: 'filter',
