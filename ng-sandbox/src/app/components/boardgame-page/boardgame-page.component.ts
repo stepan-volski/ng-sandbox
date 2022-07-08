@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddBoardgameFormComponent } from '../add-boardgame-form/add-boardgame-form.component';
 import { BoardgamesService } from 'src/app/services/boardgames.service';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -24,6 +24,7 @@ export class BoardgamePageComponent
   filterType: BoardgameType | 'all' = 'all';
   searchRequest: string = '';
   displayedItems!: number;
+  boardgameType = BoardgameType;
 
   constructor(
     public dialog: MatDialog,

@@ -4,9 +4,9 @@
       <h3>Filter Type: </h3>
       <mat-button-toggle-group [(ngModel)]="filterType">
         <mat-button-toggle value="all">All</mat-button-toggle>
-        <mat-button-toggle value="euro">Euro</mat-button-toggle>
-        <mat-button-toggle value="party">Party</mat-button-toggle>
-        <mat-button-toggle value="amero">Amero</mat-button-toggle>
+        <mat-button-toggle [value]="boardgameType.Euro">Euro</mat-button-toggle>
+        <mat-button-toggle [value]="boardgameType.Party">Party</mat-button-toggle>
+        <mat-button-toggle [value]="boardgameType.Amero">Amero</mat-button-toggle>
       </mat-button-toggle-group>
     </section>
 
