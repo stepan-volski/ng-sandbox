@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatIconModule,
     HttpClientModule,
+    MatSnackBarModule
   ],
   exports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatIconModule,
     HttpClientModule,
+    MatSnackBarModule
   ]
 })
 export class SharedModule { }

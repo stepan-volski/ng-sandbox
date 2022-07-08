@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,7 +15,11 @@ export class BoardgamesService{
   public gamesChanged = new Subject<Boardgame[]>();
   private gamesUrl = environment.gamesApiURL;
 
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {
+  constructor(
+    private sanitizer: DomSanitizer,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {
     this.getGamesFromApi()
    }
 
@@ -29,14 +34,23 @@ export class BoardgamesService{
 
   public addGame(game: Boardgame){
     this.boardgames.push(game);
-    this.http.put(this.gamesUrl, JSON.stringify(this.boardgames)).subscribe();
-    this.gamesChanged.next(this.boardgames.slice());
+    this.http.put(this.gamesUrl, JSON.stringify(this.boardgames)).subscribe(
+      () => {
+        this.gamesChanged.next(this.boardgames.slice());
+        this.snackBar.open("Game added!", undefined, { duration: 2000 })
+      }
+    );
+
   }
 
   public updateGamesAfterImport(games: Boardgame[]){
     this.boardgames = games;
-    this.http.put(this.gamesUrl, JSON.stringify(games)).subscribe();
-    this.gamesChanged.next(games);
+    this.http.put(this.gamesUrl, JSON.stringify(games)).subscribe(
+      () => {
+        this.gamesChanged.next(games);
+        this.snackBar.open("Games imported!", undefined, { duration: 2000 })
+      }
+    );
   }
 
   private getGamesFromApi(){
