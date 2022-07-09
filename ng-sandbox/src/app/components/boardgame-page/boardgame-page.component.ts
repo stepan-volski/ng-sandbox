@@ -1,17 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
-import { MatDialog } from '@angular/material/dialog';
-import { AddBoardgameFormComponent } from '../add-boardgame-form/add-boardgame-form.component';
 import { BoardgamesService } from 'src/app/services/boardgames.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { GameCardComponent } from '../game-card/game-card.component';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-boardgame-page',
   templateUrl: './boardgame-page.component.html',
   styleUrls: ['./boardgame-page.component.scss'],
 })
+
 export class BoardgamePageComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
@@ -27,8 +27,8 @@ export class BoardgamePageComponent
   boardgameType = BoardgameType;
 
   constructor(
-    public dialog: MatDialog,
     public bgServ: BoardgamesService,
+    public dServ: DialogService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -74,11 +74,15 @@ export class BoardgamePageComponent
   }
 
   addGame() {
-    this.dialog.open(AddBoardgameFormComponent);
+    this.dServ.openAddGame();
   }
 
   ngOnDestroy(): void {
     this.gamesChangedSub.unsubscribe();
     this.gamesChangedSub.unsubscribe();
   }
+
 }
+
+//error in edit component appeared after I used the wrong import
+//import { BoardgameType, Boardgame } from 'game-pipes';

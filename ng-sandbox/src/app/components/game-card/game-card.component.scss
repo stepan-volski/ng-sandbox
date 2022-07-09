@@ -16,3 +16,17 @@ img{
   display: flex;
   justify-content: center;
 }
+
+mat-icon{
+  cursor: pointer;
+  font-size: 22px;
+}
+
+mat-card-header{
+  position: relative;
+}
+
+.icons{
+  position: absolute;
+  right: 0;
+}

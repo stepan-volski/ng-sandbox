@@ -41,7 +41,10 @@
   </div>
 
   <div class="cards" >
-    <app-game-card *ngFor="let game of boardgames | filter: filterType | search: searchRequest" [game] = "game"></app-game-card>
+    <app-game-card
+    [game] = "game"
+    *ngFor="let game of boardgames | filter: filterType | search: searchRequest"
+    ></app-game-card>
     <div class="placeholder" *ngIf="!displayedItems">There are no items</div>
   </div>
 
