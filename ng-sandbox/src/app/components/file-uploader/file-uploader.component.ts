@@ -23,7 +23,7 @@ export class FileUploaderComponent {
       const reader = new FileReader();
       reader.addEventListener('load', (event) => {
         const payload = event.target!.result as string;
-        this.bgServ.updateGamesAfterImport(JSON.parse(payload));
+        this.bgServ.importGames(JSON.parse(payload));
         this.file = null;
         this.fileName = '';
       });

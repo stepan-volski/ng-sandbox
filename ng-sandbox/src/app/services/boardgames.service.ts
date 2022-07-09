@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Boardgame } from '../models/boardgame';
+import { ToastMessageService } from './toast-message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,52 +17,59 @@ export class BoardgamesService {
   constructor(
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private toastSrv: ToastMessageService
   ) {
     this.getGamesFromApi();
   }
 
-  public getBoardgames() {
-    return this.boardgames.slice();
+  public addGame(game: Boardgame) {   //move to id usage
+    this.boardgames.push(game);
+    this.updateGamesOnApi('Game added!');
   }
 
-  public getGamesExportLink() {
-    const json = JSON.stringify(this.boardgames);
-    return this.sanitizer.bypassSecurityTrustUrl(
-      'data:text/json;charset=UTF-8,' + encodeURIComponent(json)
+  public deleteGame(id: string){
+    const game = this.getGameById(id);
+    const index = this.boardgames.indexOf(game);
+    this.boardgames.splice(index, 1);
+    this.updateGamesOnApi('Game deleted!');
+  }
+
+  public editGame(editedGame: Boardgame){
+    const game = this.getGameById(editedGame.id);
+    const index = this.boardgames.indexOf(game);
+    this.boardgames[index] = editedGame;
+    this.updateGamesOnApi('Game edited!');
+  }
+
+  public importGames(games: Boardgame[]) {
+    this.boardgames = games.slice();
+    this.updateGamesOnApi('Games imported!');
+  }
+
+  private updateGamesOnApi(toastMessage: string){
+    this.http.put(this.gamesUrl, JSON.stringify(this.boardgames)).subscribe(
+      {
+        next: () => {
+          this.updateGamesOnMainPage();
+          this.toastSrv.showSuccessMessage(toastMessage);
+        },
+        error: (error) => {
+          this.toastSrv.showErrorMessage(error.message);
+        },
+      }
     );
   }
 
-  public addGame(game: Boardgame) {
-    this.boardgames.push(game);
-    this.http.put(this.gamesUrl, JSON.stringify(this.boardgames)).subscribe({
-      next: () => {
-        this.gamesChanged.next(this.boardgames.slice());
-        this.snackBar.open('Game added!', undefined, { duration: 2000 });
-      },
-      error: (error) => {
-        this.snackBar.open(
-          "Can't add game due to error " + error.message,
-          'Close'
-        );
-      },
-    });
+  private updateGamesOnMainPage(){
+    this.gamesChanged.next(this.boardgames.slice());
   }
 
-  public updateGamesAfterImport(games: Boardgame[]) {
-    this.boardgames = games;
-    this.http.put(this.gamesUrl, JSON.stringify(games)).subscribe({
-      next: () => {
-        this.gamesChanged.next(games);
-        this.snackBar.open('Games imported!', undefined, { duration: 2000 });
-      },
-      error: (error) => {
-        this.snackBar.open(
-          "Can't import games due to error " + error.message,
-          'Close'
-        );
-      },
-    });
+  public getBoardgames() {    //rename??
+    return this.boardgames.slice();
+  }
+
+  public getGameById(id: string){
+    return this.boardgames.filter(game => game.id === id)[0];
   }
 
   private getGamesFromApi() {
@@ -71,4 +78,19 @@ export class BoardgamesService {
       this.gamesChanged.next(this.boardgames.slice());
     });
   }
+
+  public getGamesExportLink() {
+    const json = JSON.stringify(this.boardgames);
+    return this.sanitizer.bypassSecurityTrustUrl(
+      'data:text/json;charset=UTF-8,' + encodeURIComponent(json)
+    );
+  }
 }
+
+
+//todo
+//edit icon
+//edit screen
+//delete function
+//increase times played button
+//add card id

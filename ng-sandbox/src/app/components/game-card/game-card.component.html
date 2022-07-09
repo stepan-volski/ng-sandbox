@@ -1,7 +1,11 @@
 <mat-card class="card" [style.border-color]="setBorderColor()">
   <mat-card-header>
-    <mat-card-title>{{game.name}}</mat-card-title>
-    <mat-card-subtitle>{{game.type}} game</mat-card-subtitle>
+      <mat-card-title>{{game.name}}</mat-card-title>
+      <mat-card-subtitle>{{game.type}} game</mat-card-subtitle>
+    <div class="icons">
+      <mat-icon (click)="deleteGame()">delete</mat-icon>
+      <mat-icon (click)="editGame()">edit</mat-icon>
+    </div>
   </mat-card-header>
 
   <div class="thumbnail">
@@ -10,6 +14,10 @@
 
   <mat-card-content>
     <p>Purchased on {{game.purchaseDate | date}}</p>
-    <p>Played {{game.timesPlayed}} times</p>
+    <p>Played <strong>{{game.timesPlayed}}</strong> times
+      <span>
+        <mat-icon (click)="incrementTimesPlayed()">add</mat-icon>
+      </span>
+    </p>
   </mat-card-content>
 </mat-card>
