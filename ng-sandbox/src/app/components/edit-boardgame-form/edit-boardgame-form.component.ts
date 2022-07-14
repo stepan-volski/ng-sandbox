@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
@@ -14,17 +13,18 @@ export class EditBoardgameFormComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {game: Boardgame},
-    private bgSrv: BoardgamesService,
+    private gServ: BoardgamesService,
     ) { }
 
   boardgameType = BoardgameType;
   game!: Boardgame;
 
   ngOnInit(): void {
-    this.game = this.data.game;
+    this.game = { ...this.data.game };
   }
 
   saveGame(){
-    this.bgSrv.editGame(this.game);
+    this.gServ.editGame(this.game);
   }
+
 }

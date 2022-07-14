@@ -5,6 +5,8 @@ import { BoardgamesService } from 'src/app/services/boardgames.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { GameCardComponent } from '../game-card/game-card.component';
 import { DialogService } from 'src/app/services/dialog.service';
+import { Store } from '@ngrx/store';
+import { GamesState } from 'src/app/store/gamesState';
 
 @Component({
   selector: 'app-boardgame-page',
@@ -27,20 +29,19 @@ export class BoardgamePageComponent
   boardgameType = BoardgameType;
 
   constructor(
-    public bgServ: BoardgamesService,
+    public gServ: BoardgamesService,
     public dServ: DialogService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private store: Store<{ games: GamesState }>,
   ) {}
 
   ngOnInit(): void {
-    this.boardgames = this.bgServ.getBoardgames();
+    this.gServ.fetchGames();
+    this.store.subscribe(state => {
+      this.boardgames = state.games.games;
+      this.displayedItems = state.games.games.length;
+    });
 
-    this.gamesChangedSub = this.bgServ.gamesChanged.subscribe(
-      (games: Boardgame[]) => {
-        this.boardgames = games;
-        this.sort();
-      }
-    );
   }
 
   ngAfterViewInit(): void {
@@ -50,39 +51,12 @@ export class BoardgamePageComponent
     });
   }
 
-  sort() {
-    switch (this.sortType) {
-      case 'name':
-        this.sortDirection === 'asc'
-          ? this.boardgames.sort((a, b) => a.name.localeCompare(b.name))
-          : this.boardgames.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      case 'playTime':
-        this.sortDirection === 'asc'
-          ? this.boardgames.sort((a, b) => a.timesPlayed - b.timesPlayed)
-          : this.boardgames.sort((a, b) => b.timesPlayed - a.timesPlayed);
-        break;
-      case 'date':
-        this.sortDirection === 'asc'
-          ? this.boardgames.sort((a, b) => Date.parse(a.purchaseDate) - Date.parse(b.purchaseDate))
-          : this.boardgames.sort((a, b) => Date.parse(b.purchaseDate) - Date.parse(a.purchaseDate));
-        break;
-      case 'none':
-        this.boardgames = this.bgServ.getBoardgames();
-        break;
-    }
-  }
-
   addGame() {
     this.dServ.openAddGame();
   }
 
   ngOnDestroy(): void {
-    this.gamesChangedSub.unsubscribe();
-    this.gamesChangedSub.unsubscribe();
+    this.filterSub.unsubscribe();
   }
 
 }
-
-//error in edit component appeared after I used the wrong import
-//import { BoardgameType, Boardgame } from 'game-pipes';
