@@ -6,6 +6,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { AppRoutingModule } from './modules/app-routing.module';
 import { SharedModule } from './modules/shared.module';
 import { EditBoardgameFormComponent } from './components/edit-boardgame-form/edit-boardgame-form.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { EditBoardgameFormComponent } from './components/edit-boardgame-form/edi
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]

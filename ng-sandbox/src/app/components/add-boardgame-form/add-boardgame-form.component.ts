@@ -11,7 +11,7 @@ import { BoardgamesService } from 'src/app/services/boardgames.service';
 })
 export class AddBoardgameFormComponent implements OnInit {
 
-  constructor(private bgSrv: BoardgamesService) { }
+  constructor(private gServ: BoardgamesService) { }
 
   boardgameType = BoardgameType;
 
@@ -23,7 +23,7 @@ export class AddBoardgameFormComponent implements OnInit {
     const type: BoardgameType = form.value.type;
     const date: string = form.value.date;
     const timesPlayed: number = form.value.timesPlayed;
-    this.bgSrv.addGame(new Boardgame(name, type, date, timesPlayed));
+    this.gServ.addGame(new Boardgame(name, type, date, timesPlayed));
   }
 
 }
