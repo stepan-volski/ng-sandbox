@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Boardgame } from '../../public-api';
 
-
 @Pipe({
   name: 'search',
   pure: false,

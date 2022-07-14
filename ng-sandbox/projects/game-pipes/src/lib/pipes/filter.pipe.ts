@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Boardgame, BoardgameType } from '../../public-api';
+import { Boardgame } from '../models/boardgame';
+import { BoardgameType } from '../models/boardgameType';
 
 
 @Pipe({
@@ -13,16 +14,16 @@ export class FilterPipe implements PipeTransform {
     let result: Boardgame[] = [];
 
     switch(type){
-       case this.boardgameType.Euro: result = value.filter(e => e.type === this.boardgameType.Euro);
-       break;
-       case this.boardgameType.Amero: result = value.filter(e => e.type === this.boardgameType.Amero);
-       break;
-       case this.boardgameType.Party: result = value.filter(e => e.type === this.boardgameType.Party);
-       break;
-       case 'all': result = value;
-       break;
-       default: result = value;
-    }
+      case this.boardgameType.Euro: result = value.filter(e => e.type === this.boardgameType.Euro);
+      break;
+      case this.boardgameType.Amero: result = value.filter(e => e.type === this.boardgameType.Amero);
+      break;
+      case this.boardgameType.Party: result = value.filter(e => e.type === this.boardgameType.Party);
+      break;
+      case 'all': result = value;
+      break;
+      default: result = value;
+   }
     return result;
   }
 
