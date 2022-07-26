@@ -11,8 +11,9 @@ import { DialogService } from 'src/app/services/dialog.service';
 })
 export class GameCardComponent implements OnInit {
 
-  constructor(public dServ: DialogService, private gServ: BoardgamesService) { }
+  constructor(public dialogServ: DialogService, private gameServ: BoardgamesService) { }
   @Input() game!: Boardgame;
+  @Input() isUserLoggedIn = false;
   boardgameType = BoardgameType;
 
   ngOnInit(): void {
@@ -28,17 +29,17 @@ export class GameCardComponent implements OnInit {
   }
 
   editGame(){
-    this.dServ.openEditGame(this.game);
+    this.dialogServ.openEditGame(this.game);
   }
 
   deleteGame(){
-    this.gServ.deleteGame(this.game.id);
+    this.gameServ.deleteGame(this.game.id);
   }
 
   incrementTimesPlayed(){
     const editedGame = { ...this.game };
     editedGame.timesPlayed++;
-    this.gServ.editGame(editedGame);
+    this.gameServ.editGame(editedGame);
   }
 
 }

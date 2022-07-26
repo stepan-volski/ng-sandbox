@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { Boardgame } from '../models/boardgame';
 import { AddGame, DeleteGame, EditGame, SetGames } from '../store/boardgames.actions';
-import { GamesState } from '../store/gamesState';
+import { GamesState } from '../store/boardgames.reducer';
 import { ToastMessageService } from './toast-message.service';
 
 @Injectable({

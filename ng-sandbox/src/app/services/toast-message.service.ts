@@ -13,6 +13,6 @@ export class ToastMessageService {
   }
 
   public showErrorMessage(message: string){
-    this.snackBar.open("Unable to perform operation due to error: " + message, 'Close');
+    this.snackBar.open("Unable to perform operation: " + message, 'Close');
   }
 }

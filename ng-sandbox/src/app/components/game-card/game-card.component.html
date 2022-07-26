@@ -2,7 +2,7 @@
   <mat-card-header>
       <mat-card-title>{{game.name}}</mat-card-title>
       <mat-card-subtitle>{{game.type}} game</mat-card-subtitle>
-    <div class="icons">
+    <div class="icons" *ngIf="isUserLoggedIn">
       <mat-icon (click)="deleteGame()">delete</mat-icon>
       <mat-icon (click)="editGame()">edit</mat-icon>
     </div>
@@ -15,7 +15,7 @@
   <mat-card-content>
     <p>Purchased on {{game.purchaseDate | date}}</p>
     <p>Played <strong>{{game.timesPlayed}}</strong> times
-      <span>
+      <span *ngIf="isUserLoggedIn">
         <mat-icon (click)="incrementTimesPlayed()">add</mat-icon>
       </span>
     </p>

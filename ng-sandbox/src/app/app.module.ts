@@ -5,23 +5,28 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { SharedModule } from './modules/shared.module';
-import { EditBoardgameFormComponent } from './components/edit-boardgame-form/edit-boardgame-form.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { EffectsModule } from '@ngrx/effects';
+import { authReducer } from './store/auth.reducer';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    EditBoardgameFormComponent,
+    LoginFormComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(authReducer),
+    EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],

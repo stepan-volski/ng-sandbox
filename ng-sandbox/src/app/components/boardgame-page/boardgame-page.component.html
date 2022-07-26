@@ -44,16 +44,17 @@
     <app-game-card
     *ngFor="let game of boardgames | sort: sortType: sortDirection | filter: filterType | search: searchRequest"
     [game] = "game"
+    [isUserLoggedIn] = "!!loggedInUser"
     ></app-game-card>
     <div class="placeholder" *ngIf="!displayedItems">There are no items</div>
   </div>
 
   <div class="actions">
-    <section class="fixedElement">
+    <section class="fixedElement" *ngIf="loggedInUser">
       <button mat-raised-button color="primary" (click)="addGame()">Add New Game</button>
-      <a mat-raised-button color="primary" [href]="gServ.getGamesExportLink()" download="boardgames.json">Export Games</a>
+      <a mat-raised-button color="primary" [href]="gameServ.getGamesExportLink()" download="boardgames.json">Export Games</a>
     </section>
-    <section>
+    <section *ngIf="loggedInUser">
       <app-file-uploader></app-file-uploader>
     </section>
   </div>
