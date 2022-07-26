@@ -4,6 +4,7 @@ import {
   AUTH_FAIL,
   AUTH_SUCCESS,
   LOG_OUT,
+  SET_USER,
 } from './auth.actions';
 
 const initialState: AuthState = {
@@ -35,6 +36,12 @@ export function authReducer(
       return {
         ...state,
         user: null,
+      };
+
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:

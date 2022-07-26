@@ -2,7 +2,11 @@ export class User {
   constructor(
     public email: string,
     public id: string,
-    private _token: string,
-    // private _tokenExpirationDate: Date
+    public createdDateStamp: number,
     ) {}
+
+    isUserExpired() {
+      return this.createdDateStamp + 60 * 60 * 1000 < new Date().getTime() ;
+    }
+
 }

@@ -10,8 +10,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { EffectsModule } from '@ngrx/effects';
-import { authReducer } from './store/auth.reducer';
 import { AuthComponent } from './components/auth/auth.component';
+import { appReducers } from './store/app.reducer';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { AuthComponent } from './components/auth/auth.component';
     BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
-    StoreModule.forRoot(authReducer),
+    StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],

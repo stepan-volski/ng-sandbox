@@ -6,6 +6,7 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOG_OUT = 'LOG_OUT';
 export const SIGN_UP_START = 'SIGN_UP_START';
+export const SET_USER = 'SET_USER';
 
 export class LogInStart implements Action {
   readonly type = LOG_IN_START;
@@ -30,4 +31,9 @@ export class LogOut implements Action {
   readonly type = LOG_OUT;
 }
 
-export type AuthAction = LogInStart | AuthFail | AuthSuccess | LogOut | SignUpStart;
+export class SetUser implements Action {
+  readonly type = SET_USER;
+  constructor(public payload: User) {}
+}
+
+export type AuthAction = LogInStart | AuthFail | AuthSuccess | LogOut | SignUpStart | SetUser;

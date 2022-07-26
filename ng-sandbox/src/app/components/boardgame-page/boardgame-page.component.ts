@@ -64,5 +64,4 @@ export class BoardgamePageComponent
 }
 
 //todo
-//fix auth component loading errors (state doesn't load in time)
-//use auth tokens + expiration
+//cleanup navigation UI (menu)

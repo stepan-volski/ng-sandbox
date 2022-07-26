@@ -25,13 +25,9 @@ export class AuthEffects {
           return this.http.post<AuthResponseData>(url, payload).pipe(
             map((responseData) => {
               this.toastServ.showSuccessMessage('User logged in');
-              return new AuthSuccess(
-                new User(
-                  responseData.email,
-                  responseData.localId,
-                  responseData.idToken
-                )
-              );
+              const user = new User(responseData.email, responseData.localId, new Date().getTime());
+              localStorage.setItem('user', JSON.stringify(user));
+              return new AuthSuccess(user);
             }),
             catchError((errorRes) => {
               this.toastServ.showErrorMessage(errorRes.error.error.message);
@@ -57,13 +53,9 @@ export class AuthEffects {
           return this.http.post<AuthResponseData>(url, payload).pipe(
             map((responseData) => {
               this.toastServ.showSuccessMessage('New user created and logged in');
-              return new AuthSuccess(
-                new User(
-                  responseData.email,
-                  responseData.localId,
-                  responseData.idToken
-                )
-              );
+              const user = new User(responseData.email, responseData.localId, new Date().getTime());
+              localStorage.setItem('user', JSON.stringify(user));
+              return new AuthSuccess(user);
             }),
             catchError((errorRes) => {
               this.toastServ.showErrorMessage(errorRes.error.error.message);
