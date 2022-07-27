@@ -6,7 +6,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { GameCardComponent } from '../game-card/game-card.component';
 import { DialogService } from 'src/app/services/dialog.service';
 import { Store } from '@ngrx/store';
-import { GamesState } from 'src/app/store/gamesState';
+import { User } from 'src/app/models/user';
+import { AppState } from 'src/app/store/app.reducer';
 
 @Component({
   selector: 'app-boardgame-page',
@@ -18,7 +19,6 @@ export class BoardgamePageComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @ViewChildren(GameCardComponent) cards!: QueryList<GameCardComponent>;
-  gamesChangedSub!: Subscription;
   filterSub!: Subscription;
   boardgames: Boardgame[] = [];
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -27,19 +27,21 @@ export class BoardgamePageComponent
   searchRequest: string = '';
   displayedItems!: number;
   boardgameType = BoardgameType;
+  loggedInUser: User | null = null
 
   constructor(
-    public gServ: BoardgamesService,
-    public dServ: DialogService,
+    public gameServ: BoardgamesService,
+    public dialogServ: DialogService,
     private cd: ChangeDetectorRef,
-    private store: Store<{ games: GamesState }>,
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit(): void {
-    this.gServ.fetchGames();
+    this.gameServ.fetchGames();
     this.store.subscribe(state => {
       this.boardgames = state.games.games;
       this.displayedItems = state.games.games.length;
+      this.loggedInUser = state.auth.user;
     });
 
   }
@@ -52,7 +54,7 @@ export class BoardgamePageComponent
   }
 
   addGame() {
-    this.dServ.openAddGame();
+    this.dialogServ.openAddGame();
   }
 
   ngOnDestroy(): void {

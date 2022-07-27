@@ -1,3 +1,4 @@
+import { Boardgame } from '../models/boardgame';
 import {
   ADD_GAME,
   BoardgameAction,
@@ -5,11 +6,14 @@ import {
   EDIT_GAME,
   SET_GAMES,
 } from './boardgames.actions';
-import { GamesState } from './gamesState';
 
 const initialState: GamesState = {
   games: []
 };
+
+export type GamesState = {
+  games: Boardgame[]
+}
 
 export function boardgamesReducer(
   state = initialState,
@@ -25,7 +29,7 @@ export function boardgamesReducer(
     case SET_GAMES:
       return {
         ...state,
-        games: [...action.payload],
+        games: [...(action.payload || [])],
       };
 
     case EDIT_GAME:
