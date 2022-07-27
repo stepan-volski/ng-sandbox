@@ -3,11 +3,12 @@ import { Actions, ofType, Effect, createEffect } from '@ngrx/effects';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AuthFail, LogInStart, AuthSuccess, LOG_IN_START, SIGN_UP_START } from './auth.actions';
+import { AuthFail, LogInStart, AuthSuccess, LOG_IN_START, SIGN_UP_START, AUTH_SUCCESS } from './auth.actions';
 import { AuthResponseData } from '../models/authResponseData';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 import { ToastMessageService } from '../services/toast-message.service';
+import { BoardgamesService } from '../services/boardgames.service';
 
 @Injectable()
 export class AuthEffects {
@@ -16,7 +17,7 @@ export class AuthEffects {
       return this.actions$.pipe(
         ofType(LOG_IN_START),
         switchMap((authData: LogInStart) => {
-          const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseApiKey}`;
+          const url = `${environment.firabaseLoginUrl}?key=${environment.firebaseApiKey}`;
           const payload = {
             email: authData.payload.email,
             password: authData.payload.password,
@@ -44,7 +45,7 @@ export class AuthEffects {
       return this.actions$.pipe(
         ofType(SIGN_UP_START),
         switchMap((authData: LogInStart) => {
-          const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${ environment.firebaseApiKey }`;
+          const url = `${environment.firebaseSignupUrl}?key=${ environment.firebaseApiKey }`;
           const payload = {
             email: authData.payload.email,
             password: authData.payload.password,
@@ -67,5 +68,22 @@ export class AuthEffects {
     }
   );
 
-  constructor(private actions$: Actions, private http: HttpClient, private toastServ: ToastMessageService) {}
+  updateUsers$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AUTH_SUCCESS),
+        tap(() => {
+          this.gameService.fetchGames();
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private toastServ: ToastMessageService,
+    private gameService: BoardgamesService,
+  ) {}
 }

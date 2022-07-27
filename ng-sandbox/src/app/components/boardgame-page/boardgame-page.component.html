@@ -46,7 +46,8 @@
     [game] = "game"
     [isUserLoggedIn] = "!!loggedInUser"
     ></app-game-card>
-    <div class="placeholder" *ngIf="!displayedItems">There are no items</div>
+    <div class="placeholder" *ngIf="!displayedItems && loggedInUser">There are no items</div>
+    <div class="placeholder" *ngIf="!displayedItems && !loggedInUser">Log in to view games</div>
   </div>
 
   <div class="actions">

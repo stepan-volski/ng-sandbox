@@ -62,6 +62,3 @@ export class BoardgamePageComponent
   }
 
 }
-
-//todo
-//cleanup navigation UI (menu)

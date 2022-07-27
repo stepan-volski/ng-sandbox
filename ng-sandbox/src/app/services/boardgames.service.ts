@@ -4,8 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { Boardgame } from '../models/boardgame';
+import { User } from '../models/user';
+import { AppState } from '../store/app.reducer';
 import { AddGame, DeleteGame, EditGame, SetGames } from '../store/boardgames.actions';
-import { GamesState } from '../store/boardgames.reducer';
 import { ToastMessageService } from './toast-message.service';
 
 @Injectable({
@@ -13,17 +14,18 @@ import { ToastMessageService } from './toast-message.service';
 })
 export class BoardgamesService {
   private boardgames!: Boardgame[];
-  private gamesUrl = environment.gamesApiURL;
+  loggedInUser: User | null = null
 
   constructor(
     private sanitizer: DomSanitizer,
     private http: HttpClient,
     private toastSrv: ToastMessageService,
-    private store: Store<GamesState>,
+    private store: Store<AppState>,
   ) {
     this.store.subscribe(
       (state: any) => {
         this.boardgames = state.games.games;
+        this.loggedInUser = state.auth.user;
       }
     );
   }
@@ -77,7 +79,8 @@ export class BoardgamesService {
   }
 
   public fetchGames(){
-    this.http.get<Boardgame[]>(this.gamesUrl).subscribe(
+    const url = `${environment.firebaseMainUrl}/users/${this.loggedInUser?.id}/games.json`;
+    this.http.get<Boardgame[]>(url).subscribe(
       {
         next: (games) => {
           this.store.dispatch(new SetGames(games));
@@ -104,7 +107,8 @@ export class BoardgamesService {
   }
 
   private updateGamesOnApi(payload: Boardgame[]){
-    return this.http.put(this.gamesUrl, JSON.stringify(payload));
+    const url = `${environment.firebaseMainUrl}/users/${this.loggedInUser?.id}/games.json`;
+    return this.http.put(url, JSON.stringify(payload));
   }
 
   public getGamesExportLink() {

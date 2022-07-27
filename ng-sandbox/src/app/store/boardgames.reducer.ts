@@ -29,7 +29,7 @@ export function boardgamesReducer(
     case SET_GAMES:
       return {
         ...state,
-        games: [...action.payload],
+        games: [...(action.payload || [])],
       };
 
     case EDIT_GAME:

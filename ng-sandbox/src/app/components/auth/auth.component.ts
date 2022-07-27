@@ -5,6 +5,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { ToastMessageService } from 'src/app/services/toast-message.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { LogOut, SetUser } from 'src/app/store/auth.actions';
+import { SetGames } from 'src/app/store/boardgames.actions';
 
 @Component({
   selector: 'app-auth',
@@ -34,6 +35,7 @@ export class AuthComponent implements OnInit {
   logOut() {
     this.store.dispatch(new LogOut());
     localStorage.removeItem('user');
+    this.store.dispatch(new SetGames([]));
     this.toastSrv.showSuccessMessage('User is logged out');
   }
 
