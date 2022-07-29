@@ -1,7 +1,14 @@
-<mat-card class="card" [style.border-color]="setBorderColor()">
+<mat-card
+  class="card"
+  [ngClass]="{
+    red: game.type === boardgameType.Amero,
+    green: game.type === boardgameType.Party,
+    blue: game.type === boardgameType.Euro
+  }"
+>
   <mat-card-header>
-      <mat-card-title>{{game.name}}</mat-card-title>
-      <mat-card-subtitle>{{game.type}} game</mat-card-subtitle>
+    <mat-card-title>{{ game.name }}</mat-card-title>
+    <mat-card-subtitle>{{ game.type }} game</mat-card-subtitle>
     <div class="icons" *ngIf="isUserLoggedIn">
       <mat-icon (click)="deleteGame()">delete</mat-icon>
       <mat-icon (click)="editGame()">edit</mat-icon>
@@ -9,12 +16,13 @@
   </mat-card-header>
 
   <div class="thumbnail">
-    <img src="../../../assets/dice-icon.jpg" alt="Game thumbnail">
+    <img src="../../../assets/dice-icon.jpg" alt="Game thumbnail" />
   </div>
 
   <mat-card-content>
-    <p>Purchased on {{game.purchaseDate | date}}</p>
-    <p>Played <strong>{{game.timesPlayed}}</strong> times
+    <p>Purchased on {{ game.purchaseDate | date }}</p>
+    <p>
+      Played <strong>{{ game.timesPlayed }}</strong> times
       <span *ngIf="isUserLoggedIn">
         <mat-icon (click)="incrementTimesPlayed()">add</mat-icon>
       </span>

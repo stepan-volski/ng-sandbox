@@ -1,32 +1,45 @@
-.card{
+.card {
   margin: 0 30px 30px 30px;
   min-width: 20vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border-bottom: 5px solid;
+  border-color: black;
 }
 
-img{
+img {
   max-width: 15vw;
   margin-bottom: 20px;
 }
 
-.thumbnail{
+.thumbnail {
   display: flex;
   justify-content: center;
 }
 
-mat-icon{
+mat-icon {
   cursor: pointer;
   font-size: 22px;
 }
 
-mat-card-header{
+mat-card-header {
   position: relative;
 }
 
-.icons{
+.icons {
   position: absolute;
   right: 0;
+}
+
+.red {
+  border-color: red;
+}
+
+.green {
+  border-color: green;
+}
+
+.blue {
+  border-color: blue;
 }

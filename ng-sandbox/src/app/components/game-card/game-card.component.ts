@@ -19,15 +19,6 @@ export class GameCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setBorderColor(){
-    switch(this.game.type){
-      case this.boardgameType.Amero: return 'red';
-      case this.boardgameType.Euro: return 'blue';
-      case this.boardgameType.Party: return 'green';
-      default: return 'black';
-    }
-  }
-
   editGame(){
     this.dialogServ.openEditGame(this.game);
   }
