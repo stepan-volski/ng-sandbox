@@ -4,6 +4,7 @@ import { Boardgame } from 'projects/game-pipes/src/public-api';
 import { AddBoardgameFormComponent } from '../components/add-boardgame-form/add-boardgame-form.component';
 import { EditBoardgameFormComponent } from '../components/edit-boardgame-form/edit-boardgame-form.component';
 import { LoginFormComponent } from '../components/login-form/login-form.component';
+import { LoginType } from '../models/loginType';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,6 @@ import { LoginFormComponent } from '../components/login-form/login-form.componen
 export class DialogService {
 
   constructor(public dialog: MatDialog) { }
-
 
   openAddGame(){
     this.dialog.open(AddBoardgameFormComponent);
@@ -23,7 +23,7 @@ export class DialogService {
     });
   }
 
-  openLogin(type: 'login' | 'signup'){
+  openLogin(type: LoginType){
     this.dialog.open(LoginFormComponent, {
       data: {type: type}
     })

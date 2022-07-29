@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { LoginType } from 'src/app/models/loginType';
 import { User } from 'src/app/models/user';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ToastMessageService } from 'src/app/services/toast-message.service';
@@ -20,6 +21,7 @@ export class AuthComponent implements OnInit {
   ) {}
 
   loggedInUser: User | null = null;
+  loginType = LoginType;
 
   ngOnInit(): void {
     this.initUser();
@@ -28,7 +30,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  login(type: 'login' | 'signup') {
+  login(type: LoginType) {
     this.dialogServ.openLogin(type);
   }
 
