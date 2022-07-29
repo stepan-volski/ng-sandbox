@@ -1,7 +1,7 @@
 <div>
   <section *ngIf="!loggedInUser">
-    <button mat-stroked-button (click)="login('login')">Log in</button>
-    <button mat-stroked-button (click)="login('signup')">Sign up</button>
+    <button mat-stroked-button (click)="login(loginType.Login)">Log in</button>
+    <button mat-stroked-button (click)="login(loginType.SignUp)">Sign up</button>
   </section>
   <section *ngIf="loggedInUser">
     <span>{{loggedInUser.email}}</span>

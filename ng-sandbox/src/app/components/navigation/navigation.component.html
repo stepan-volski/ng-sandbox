@@ -1,10 +1,14 @@
 <div class="nav">
-  <ul>
-    <li (click)="goToArrays()">Arrays</li>
-    <li (click)="goToBoardgames()">Boardgames</li>
-  </ul>
-
-  <div class="auth">
+  <div>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="goToBoardgames()">Boardgames Section</button>
+      <button mat-menu-item (click)="goToArrays()">Arrays Section</button>
+    </mat-menu>
+  </div>
+  <div>
     <app-auth></app-auth>
   </div>
 </div>

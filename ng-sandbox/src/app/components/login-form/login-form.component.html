@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{formText}}</h1>
+<h1 mat-dialog-title>{{formType}}</h1>
 <div mat-dialog-content>
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
 
@@ -12,7 +12,7 @@
       <input matInput name="password" ngModel required>
     </mat-form-field>
 
-    <button mat-raised-button mat-dialog-close color="primary" type="submit" [disabled]="!f.valid">{{formText}}</button>
+    <button mat-raised-button mat-dialog-close color="primary" type="submit" [disabled]="!f.valid">{{formType}}</button>
     <button mat-button mat-dialog-close>Cancel</button>
   </form>
 </div>
