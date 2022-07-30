@@ -16,7 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -38,6 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
     HttpClientModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatTooltipModule,
   ],
   exports: [
     CommonModule,
@@ -57,6 +58,7 @@ import { MatMenuModule } from '@angular/material/menu';
     HttpClientModule,
     MatSnackBarModule,
     MatMenuModule,
-  ]
+    MatTooltipModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

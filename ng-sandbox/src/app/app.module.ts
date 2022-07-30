@@ -12,6 +12,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { EffectsModule } from '@ngrx/effects';
 import { AuthComponent } from './components/auth/auth.component';
 import { appReducers } from './store/app.reducer';
+import { LendBoardgameFormComponent } from './components/lend-boardgame-form/lend-boardgame-form.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { appReducers } from './store/app.reducer';
     NavigationComponent,
     LoginFormComponent,
     AuthComponent,
+    LendBoardgameFormComponent,
   ],
   imports: [
     BrowserModule,
