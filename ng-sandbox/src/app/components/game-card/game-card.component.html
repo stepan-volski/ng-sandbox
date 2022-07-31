@@ -3,29 +3,35 @@
   [ngClass]="{
     red: game.type === boardgameType.Amero,
     green: game.type === boardgameType.Party,
-    blue: game.type === boardgameType.Euro
+    blue: game.type === boardgameType.Euro,
+    lent: isBorrowedGame
   }"
+  matTooltip={{tooltipText}}
+  [matTooltipDisabled]="!isBorrowedGame"
+  matTooltipPosition="right"
+  (mouseenter)="showOverlay=true"
+  (mouseleave)="showOverlay=false"
 >
   <mat-card-header>
     <mat-card-title>{{ game.name }}</mat-card-title>
     <mat-card-subtitle>{{ game.type }} game</mat-card-subtitle>
-    <div class="icons" *ngIf="isUserLoggedIn">
-      <mat-icon (click)="deleteGame()">delete</mat-icon>
-      <mat-icon (click)="editGame()">edit</mat-icon>
+    <div class="icons" *ngIf="!isBorrowedGame">
+      <mat-icon (click)="deleteGame()" matTooltip="Delete game">delete</mat-icon>
+      <mat-icon (click)="editGame()" matTooltip="Edit game">edit</mat-icon>
+      <mat-icon (click)="incrementTimesPlayed()" matTooltip="Increase Played counter">add</mat-icon>
+      <mat-icon (click)="lendGame()" matTooltip="Lend game to a friend">snowshoeing</mat-icon>
     </div>
   </mat-card-header>
 
   <div class="thumbnail">
-    <img src="../../../assets/dice-icon.jpg" alt="Game thumbnail" />
+    <img src="../../../assets/game-icon.png" alt="Game thumbnail" />
   </div>
 
   <mat-card-content>
     <p>Purchased on {{ game.purchaseDate | date }}</p>
-    <p>
-      Played <strong>{{ game.timesPlayed }}</strong> times
-      <span *ngIf="isUserLoggedIn">
-        <mat-icon (click)="incrementTimesPlayed()">add</mat-icon>
-      </span>
-    </p>
+    <p>Played <strong>{{ game.timesPlayed }}</strong> times</p>
+    <div class="returnSection" *ngIf="isBorrowedGame && showOverlay">
+      <button  mat-raised-button color="primary" (click)="returnGame()">Game was returned</button>
+    </div>
   </mat-card-content>
 </mat-card>

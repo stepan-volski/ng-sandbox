@@ -1,0 +1,11 @@
+.mat-dialog-content{
+  form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 20vw;
+  }
+  button{
+    margin-top: 10px;
+  }
+}

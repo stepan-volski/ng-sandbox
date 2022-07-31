@@ -2,11 +2,10 @@ export class User {
   constructor(
     public email: string,
     public id: string,
-    public createdDateStamp: number,
-    ) {}
+    public createdDateStamp: number
+  ) {}
 
-    isUserExpired() {
-      return this.createdDateStamp + 60 * 60 * 1000 < new Date().getTime() ;
-    }
-
+  isUserExpired() {
+    return this.createdDateStamp + 60 * 60 * 1000 < new Date().getTime();
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, Effect, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 import { ToastMessageService } from '../services/toast-message.service';
 import { BoardgamesService } from '../services/boardgames.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthEffects {
@@ -23,7 +24,7 @@ export class AuthEffects {
             password: authData.payload.password,
             returnSecureToken: true,
           };
-          return this.http.post<AuthResponseData>(url, payload).pipe(
+          return this.http.post<AuthResponseData>(url, payload).pipe(         //move request to authService
             map((responseData) => {
               this.toastServ.showSuccessMessage('User logged in');
               const user = new User(responseData.email, responseData.localId, new Date().getTime());
@@ -51,11 +52,12 @@ export class AuthEffects {
             password: authData.payload.password,
             returnSecureToken: true,
           };
-          return this.http.post<AuthResponseData>(url, payload).pipe(
+          return this.http.post<AuthResponseData>(url, payload).pipe(   //move request to authService
             map((responseData) => {
               this.toastServ.showSuccessMessage('New user created and logged in');
               const user = new User(responseData.email, responseData.localId, new Date().getTime());
               localStorage.setItem('user', JSON.stringify(user));
+              this.authService.addUserToApiUserList(user);
               return new AuthSuccess(user);
             }),
             catchError((errorRes) => {
@@ -85,5 +87,6 @@ export class AuthEffects {
     private http: HttpClient,
     private toastServ: ToastMessageService,
     private gameService: BoardgamesService,
+    private authService: AuthService,
   ) {}
 }
