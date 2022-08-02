@@ -13,22 +13,8 @@
   margin-bottom: 25px;
 }
 
-.container{
-  display: flex;
-}
-
-.fixedElement {
-  position: sticky;
-  top: 10px;
-}
-
 .mat-raised-button{
   margin-left: 10px;
-}
-
-.actions{
-  display: flex;
-  flex-direction: column;
 }
 
 .placeholder{
@@ -39,5 +25,27 @@
 .cards{
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 80vh;
+}
+
+.accordions{
+  display: flex;
   flex-direction: column;
+
+  mat-accordion {
+    margin-bottom: 10px;
+  }
+}
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sidenav {
+  padding: 20px;
 }

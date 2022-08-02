@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { filter, map, mergeAll, toArray } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Boardgame } from '../models/boardgame';
 import { User } from '../models/user';
@@ -36,8 +36,8 @@ export class BoardgamesService {
 
   public addGame(game: Boardgame) {
     const payload = JSON.stringify(game);
-    const url = `${environment.firebaseMainUrl}/userData/${this.loggedInUser?.id}/games.json`;
-    this.http.post(url, payload).subscribe({
+    const url = `${environment.firebaseMainUrl}/games/${game.id}.json`;
+    this.http.put(url, payload).subscribe({
       next: () => {
         this.store.dispatch(new AddGame(game));
         this.toastSrv.showSuccessMessage('Game added!');
@@ -48,49 +48,19 @@ export class BoardgamesService {
     });
   }
 
-  public lendGame(game: Boardgame, userId: string) {
-    const payload = JSON.stringify(game);
-    const url = `${environment.firebaseMainUrl}/userData/${userId}/games.json`;
-
-    this.http.post(url, payload).subscribe({
-      next: (response: any) => {
-        this.toastSrv.showSuccessMessage('Game lent!');
-        const lentId = response.name;
-        const updatedGame = {
-          ...game,
-          lentId,
-        };
-        this.editGame(updatedGame);
-      },
-      error: (error) => {
-        this.toastSrv.showErrorMessage(error.message);
-      },
-    });
+  public lendGame(game: Boardgame) {
+    this.editGame(game);
+    this.toastSrv.showSuccessMessage('Game lent!');
   }
 
   public returnGame(game: Boardgame) {
-    const deleteUrl = `${environment.firebaseMainUrl}/userData/${game.lentToUser?.id}/games/${game.lentId}.json`;
-
-    this.http.delete(deleteUrl).subscribe({
-      next: () => {
-        this.toastSrv.showSuccessMessage('Game returned!');
-        const updatedGame = {
-          ...game,
-          lentFromUser: undefined,
-          lentToUser: undefined,
-          lentId: undefined,
-        };
-        this.editGame(updatedGame);
-      },
-      error: (error) => {
-        this.toastSrv.showErrorMessage(error.message);
-      },
-    });
+    this.editGame(game);
+    this.toastSrv.showSuccessMessage('Game returned!');
   }
 
   public deleteGame(id: string) {
-    const payload = this.boardgames.filter((game) => game.id !== id);
-    this.updateGamesOnApi(payload).subscribe({
+    const url = `${environment.firebaseMainUrl}/games/${id}.json`;
+    this.http.delete(url).subscribe({
       next: () => {
         this.store.dispatch(new DeleteGame(id));
         this.toastSrv.showSuccessMessage('Game deleted!');
@@ -102,11 +72,9 @@ export class BoardgamesService {
   }
 
   public editGame(game: Boardgame) {
-    const index = this.boardgames.findIndex((e) => e.id === game.id);
-    const payload = [...this.boardgames];
-    payload[index] = game;
-
-    this.updateGamesOnApi(payload).subscribe({
+    const payload = JSON.stringify(game);
+    const url = `${environment.firebaseMainUrl}/games/${game.id}.json`;
+    this.http.put(url, payload).subscribe({
       next: () => {
         this.store.dispatch(new EditGame(game));
         this.toastSrv.showSuccessMessage('Game updated!');
@@ -117,11 +85,18 @@ export class BoardgamesService {
     });
   }
 
-  public fetchGames() {
-    const url = `${environment.firebaseMainUrl}/userData/${this.loggedInUser?.id}/games.json`;
+  public getUserGames(userId: string) {
+    const url = `${environment.firebaseMainUrl}/games.json`;
     this.http
       .get(url)
-      .pipe(map((resp) => Object.values(resp || {}))) //convert firebase games object to Boardgame[]
+      .pipe(
+        map((response) => Object.values(response || {}) as Boardgame[]),
+        mergeAll(),
+        filter(
+          (game) => game.owner.id === userId || game.borrower?.id === userId
+        ),
+        toArray()
+      )
       .subscribe({
         next: (games) => {
           this.store.dispatch(new SetGames(games));
@@ -132,21 +107,15 @@ export class BoardgamesService {
       });
   }
 
-  public importGames(games: Boardgame[]) {
-    this.updateGamesOnApi(games).subscribe({
-      next: () => {
-        this.store.dispatch(new SetGames(games));
-        this.toastSrv.showSuccessMessage('Games imported!');
-      },
-      error: (error) => {
-        this.toastSrv.showErrorMessage(error.message);
-      },
-    });
+  public getGameById(id: string){
+    const url = `${environment.firebaseMainUrl}/games/${id}.json`;
+    return this.http.get<Boardgame>(url);
   }
 
-  private updateGamesOnApi(payload: Boardgame[]) {
-    const url = `${environment.firebaseMainUrl}/userData/${this.loggedInUser?.id}/games.json`;
-    return this.http.put(url, JSON.stringify(payload));
+  public importGames(games: Boardgame[]) {  //TODO need to specify business logic
+    console.log('imported games:');
+    console.log(games);
+    this.toastSrv.showSuccessMessage('Feature temporary disabled!');
   }
 
   public getGamesExportLink() {

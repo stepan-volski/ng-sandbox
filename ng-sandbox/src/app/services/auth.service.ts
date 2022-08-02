@@ -15,12 +15,19 @@ import { ToastMessageService } from './toast-message.service';
   providedIn: 'root',
 })
 export class AuthService {
+
+  loggedInUser!: User;   //refactor??
+
   constructor(
     private toastSrv: ToastMessageService,
     private store: Store<AppState>,
     private http: HttpClient,
     public dialogServ: DialogService
-  ) {}
+  ) {
+    this.store.subscribe(state => {
+      this.loggedInUser = state.auth.user!;   //need to check for null??
+    })
+  }
 
   public initUser() {
     const data = localStorage.getItem('user');
@@ -50,14 +57,20 @@ export class AuthService {
     this.toastSrv.showSuccessMessage('User is logged out');
   }
 
-  getUserListFromApi() {
+  getUserListFromApi() {    //refactor usage??
     const url = `${environment.firebaseMainUrl}/users.json`;
     return this.http.get(url).pipe(map((resp) => Object.values(resp || {})));
   }
 
   addUserToApiUserList(user: User) {    //add error handling?
-    const url = `${environment.firebaseMainUrl}/users.json`;
+    const url = `${environment.firebaseMainUrl}/users/${user.id}.json`;
     const payload = JSON.stringify(user);
-    this.http.post(url, payload).subscribe();
+    this.http.put(url, payload).subscribe();
+  }
+
+  getLoggedInUser() {     //todo - refactor?? use state instead??
+    return this.loggedInUser;
   }
 }
+
+//many refactoring needed here

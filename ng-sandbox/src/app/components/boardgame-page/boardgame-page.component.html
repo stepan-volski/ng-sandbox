@@ -1,63 +1,114 @@
-<div class="container">
-  <div class="fixedElement">
-    <section class="control-section">
-      <h3>Filter Type: </h3>
-      <mat-button-toggle-group [(ngModel)]="filterType">
-        <mat-button-toggle value="all">All</mat-button-toggle>
-        <mat-button-toggle [value]="boardgameType.Euro">Euro</mat-button-toggle>
-        <mat-button-toggle [value]="boardgameType.Party">Party</mat-button-toggle>
-        <mat-button-toggle [value]="boardgameType.Amero">Amero</mat-button-toggle>
-      </mat-button-toggle-group>
-    </section>
+<mat-drawer-container autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <div class="accordions">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>import_export</mat-icon>
+            </mat-panel-title>
+            <mat-panel-description> Add/Import/Export </mat-panel-description>
+          </mat-expansion-panel-header>
+          <button mat-raised-button color="primary" (click)="addGame()">
+            Add New Game
+          </button>
+          <a
+            mat-raised-button
+            color="primary"
+            [href]="gameServ.getGamesExportLink()"
+            download="boardgames.json"
+            >Export Games</a
+          >
+          <app-file-uploader></app-file-uploader>
+        </mat-expansion-panel>
+      </mat-accordion>
 
-    <section class="control-section">
-      <h3>Sort Direction: </h3>
-      <mat-button-toggle-group [(ngModel)]="sortDirection">
-        <mat-button-toggle value="asc">Ascending</mat-button-toggle>
-        <mat-button-toggle value="desc">Descending</mat-button-toggle>
-      </mat-button-toggle-group>
-    </section>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> <mat-icon>filter_alt</mat-icon> </mat-panel-title>
+            <mat-panel-description> Filters and sorting </mat-panel-description>
+          </mat-expansion-panel-header>
+          <section class="control-section">
+            <h3>Filter Type:</h3>
+            <mat-button-toggle-group [(ngModel)]="filterType">
+              <mat-button-toggle value="all">All</mat-button-toggle>
+              <mat-button-toggle [value]="boardgameType.Euro"
+                >Euro</mat-button-toggle
+              >
+              <mat-button-toggle [value]="boardgameType.Party"
+                >Party</mat-button-toggle
+              >
+              <mat-button-toggle [value]="boardgameType.Amero"
+                >Amero</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+          </section>
 
-    <section class="control-section">
-      <h3>Sort Type: </h3>
-      <mat-button-toggle-group [(ngModel)]="sortType">
-        <mat-button-toggle value="none">None</mat-button-toggle>
-        <mat-button-toggle value="name">Name</mat-button-toggle>
-        <mat-button-toggle value="date">Date</mat-button-toggle>
-        <mat-button-toggle value="playTime">Play Time</mat-button-toggle>
-      </mat-button-toggle-group>
-    </section>
+          <section class="control-section">
+            <h3>Sort Direction:</h3>
+            <mat-button-toggle-group [(ngModel)]="sortDirection">
+              <mat-button-toggle value="asc">Ascending</mat-button-toggle>
+              <mat-button-toggle value="desc">Descending</mat-button-toggle>
+            </mat-button-toggle-group>
+          </section>
 
-    <section class="control-section">
-      <h3>Search: </h3>
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="Search by name" [(ngModel)]="searchRequest">
-      </mat-form-field>
-    </section>
+          <section class="control-section">
+            <h3>Sort Type:</h3>
+            <mat-button-toggle-group [(ngModel)]="sortType">
+              <mat-button-toggle value="none">None</mat-button-toggle>
+              <mat-button-toggle value="name">Name</mat-button-toggle>
+              <mat-button-toggle value="date">Date</mat-button-toggle>
+              <mat-button-toggle value="playTime">Play Time</mat-button-toggle>
+            </mat-button-toggle-group>
+          </section>
 
-    <section class="control-section">
-      <h3>Displayed Items: {{displayedItems}}</h3>
-    </section>
+          <section class="control-section">
+            <h3>Search:</h3>
+            <mat-form-field appearance="fill">
+              <input
+                matInput
+                placeholder="Search by name"
+                [(ngModel)]="searchRequest"
+              />
+            </mat-form-field>
+          </section>
+
+          <section class="control-section">
+            <h3>Displayed Items: {{ displayedItems }}</h3>
+          </section>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <button *ngIf="loggedInUser"
+      type="button"
+      mat-button
+      (click)="drawer.toggle()"
+      (click)="toggleSidenav()"
+    >
+      <mat-icon *ngIf="!isSidenavExpanded">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="isSidenavExpanded">keyboard_arrow_left</mat-icon>
+    </button>
+    <div class="cards">
+      <app-game-card
+        *ngFor="
+          let game of boardgames
+            | sort: sortType:sortDirection
+            | filter: filterType
+            | search: searchRequest
+        "
+        [game]="game"
+        [loggedInUser]="loggedInUser"
+      ></app-game-card>
+      <div class="placeholder" *ngIf="!displayedItems && loggedInUser">
+        There are no items
+      </div>
+      <div class="placeholder" *ngIf="!displayedItems && !loggedInUser">
+        Log in to view games
+      </div>
+    </div>
   </div>
-
-  <div class="cards" >
-    <app-game-card
-    *ngFor="let game of boardgames | sort: sortType: sortDirection | filter: filterType | search: searchRequest"
-    [game] = "game"
-    [loggedInUser] = "loggedInUser"
-    ></app-game-card>
-    <div class="placeholder" *ngIf="!displayedItems && loggedInUser">There are no items</div>
-    <div class="placeholder" *ngIf="!displayedItems && !loggedInUser">Log in to view games</div>
-  </div>
-
-  <div class="actions">
-    <section class="fixedElement" *ngIf="loggedInUser">
-      <button mat-raised-button color="primary" (click)="addGame()">Add New Game</button>
-      <a mat-raised-button color="primary" [href]="gameServ.getGamesExportLink()" download="boardgames.json">Export Games</a>
-    </section>
-    <section *ngIf="loggedInUser">
-      <app-file-uploader></app-file-uploader>
-    </section>
-  </div>
-
-</div>
+</mat-drawer-container>

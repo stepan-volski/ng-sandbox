@@ -1,0 +1,24 @@
+<mat-card
+  class="card"
+  [ngClass]="{
+    red: game?.type === boardgameType.Amero,
+    green: game?.type === boardgameType.Party,
+    blue: game?.type === boardgameType.Euro
+  }">
+
+  <mat-card-header>
+    <mat-card-title>{{ game?.name }}</mat-card-title>
+    <mat-card-subtitle>{{ game?.type }} game</mat-card-subtitle>
+  </mat-card-header>
+
+  <div class="thumbnail">
+    <img src="../../../assets/game-icon.png" alt="Game thumbnail" />
+  </div>
+
+  <mat-card-content>
+    <p>Purchased on {{ game?.purchaseDate | date }}</p>
+    <p>
+      Played <strong>{{ game?.timesPlayed }}</strong> times
+    </p>
+  </mat-card-content>
+</mat-card>
