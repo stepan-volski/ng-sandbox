@@ -6,20 +6,49 @@
     blue: game.type === boardgameType.Euro,
     lent: isBorrowedGame
   }"
-  matTooltip={{tooltipText}}
+  matTooltip="{{ tooltipText }}"
   [matTooltipDisabled]="!isBorrowedGame"
   matTooltipPosition="right"
-  (mouseenter)="showOverlay=true"
-  (mouseleave)="showOverlay=false"
+  (mouseenter)="showOverlay = true"
+  (mouseleave)="showOverlay = false"
 >
   <mat-card-header>
     <mat-card-title>{{ game.name }}</mat-card-title>
     <mat-card-subtitle>{{ game.type }} game</mat-card-subtitle>
     <div class="icons" *ngIf="!isBorrowedGame">
-      <mat-icon (click)="deleteGame()" matTooltip="Delete game">delete</mat-icon>
-      <mat-icon (click)="editGame()" matTooltip="Edit game">edit</mat-icon>
-      <mat-icon (click)="incrementTimesPlayed()" matTooltip="Increase Played counter">add</mat-icon>
-      <mat-icon (click)="lendGame()" matTooltip="Lend game to a friend">snowshoeing</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="editGame()" mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button (click)="deleteGame()" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+        <button (click)="incrementTimesPlayed()" mat-menu-item>
+          <mat-icon>add</mat-icon>
+          <span>Played</span>
+        </button>
+        <button (click)="openGameDetails()" mat-menu-item>
+          <mat-icon>fullscreen</mat-icon>
+          <span>Details</span>
+        </button>
+        <button
+          (click)="showClipboardNotification()"
+          [cdkCopyToClipboard]="gameUrl"
+          mat-menu-item
+        >
+          <mat-icon>link</mat-icon>
+          <span>Share</span>
+        </button>
+        <button (click)="lendGame()" mat-menu-item>
+          <mat-icon>snowshoeing</mat-icon>
+          <span>Lend</span>
+        </button>
+      </mat-menu>
     </div>
   </mat-card-header>
 
@@ -29,9 +58,13 @@
 
   <mat-card-content>
     <p>Purchased on {{ game.purchaseDate | date }}</p>
-    <p>Played <strong>{{ game.timesPlayed }}</strong> times</p>
-    <div class="returnSection" *ngIf="isBorrowedGame && showOverlay">
-      <button  mat-raised-button color="primary" (click)="returnGame()">Game was returned</button>
+    <p>
+      Played <strong>{{ game.timesPlayed }}</strong> times
+    </p>
+    <div class="returnSection" *ngIf="isBorrowedGame && showReturnButton">
+      <button mat-raised-button color="primary" (click)="returnGame()">
+        Game was returned
+      </button>
     </div>
   </mat-card-content>
 </mat-card>

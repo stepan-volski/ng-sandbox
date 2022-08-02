@@ -15,10 +15,10 @@ import { ToastMessageService } from 'src/app/services/toast-message.service';
 export class LendBoardgameFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { game: Boardgame; currentUser: User },
-    private authService: AuthService,
+    public data: { game: Boardgame },
+    public authService: AuthService,
     private toastServ: ToastMessageService,
-    private gameServ: BoardgamesService,
+    private gameServ: BoardgamesService
   ) {}
 
   game!: Boardgame;
@@ -39,9 +39,8 @@ export class LendBoardgameFormComponent implements OnInit {
   onSubmit(form: NgForm) {
     const lentGame = {
       ...this.game,
-      lentFromUser: this.data.currentUser,
-      lentToUser: form.value.user,
+      borrower: form.value.user,
     };
-    this.gameServ.lendGame(lentGame, form.value.user.id);
+    this.gameServ.lendGame(lentGame);
   }
 }

@@ -27,7 +27,8 @@ export class BoardgamePageComponent
   searchRequest: string = '';
   displayedItems!: number;
   boardgameType = BoardgameType;
-  loggedInUser: User | null = null
+  loggedInUser: User | null = null;
+  isSidenavExpanded = false;
 
   constructor(
     public gameServ: BoardgamesService,
@@ -37,13 +38,14 @@ export class BoardgamePageComponent
   ) {}
 
   ngOnInit(): void {
-    this.gameServ.fetchGames();
     this.store.subscribe(state => {
       this.boardgames = state.games.games;
       this.displayedItems = state.games.games.length;
       this.loggedInUser = state.auth.user;
     });
-
+    if (this.loggedInUser) {
+      this.gameServ.getUserGames(this.loggedInUser.id);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -57,8 +59,20 @@ export class BoardgamePageComponent
     this.dialogServ.openAddGame();
   }
 
+  toggleSidenav() {
+    this.isSidenavExpanded = !this.isSidenavExpanded;
+  }
+
   ngOnDestroy(): void {
     this.filterSub.unsubscribe();
   }
 
 }
+
+// UI: clean up header position and icons
+// UI: game details page
+
+// feature: if user is not logged in, redirect from game details page to main page
+
+// refactor: split main page into components
+// refactor: auth service + auth effects

@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from './app.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { AppRoutingModule } from './modules/app-routing.module';
-import { SharedModule } from './modules/shared.module';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { EffectsModule } from '@ngrx/effects';
+import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
-import { appReducers } from './store/app.reducer';
 import { LendBoardgameFormComponent } from './components/lend-boardgame-form/lend-boardgame-form.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { AppRoutingModule } from './modules/app-routing.module';
+import { SharedModule } from './modules/shared.module';
+import { appReducers } from './store/app.reducer';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LendBoardgameFormComponent } from './components/lend-boardgame-form/len
     LoginFormComponent,
     AuthComponent,
     LendBoardgameFormComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

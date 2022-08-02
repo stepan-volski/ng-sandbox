@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Boardgame } from 'projects/game-pipes/src/public-api';
 import { AddBoardgameFormComponent } from '../components/add-boardgame-form/add-boardgame-form.component';
+import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
 import { EditBoardgameFormComponent } from '../components/edit-boardgame-form/edit-boardgame-form.component';
 import { LendBoardgameFormComponent } from '../components/lend-boardgame-form/lend-boardgame-form.component';
 import { LoginFormComponent } from '../components/login-form/login-form.component';
+import { Boardgame } from '../models/boardgame';
 import { LoginType } from '../models/loginType';
-import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +24,9 @@ export class DialogService {
     });
   }
 
-  openLendGame(game: Boardgame, user: User) {
+  openLendGame(game: Boardgame) {
     this.dialog.open(LendBoardgameFormComponent, {
-      data: { game: game, currentUser: user },
+      data: { game: game },
     });
   }
 
@@ -34,5 +34,10 @@ export class DialogService {
     this.dialog.open(LoginFormComponent, {
       data: { type: type },
     });
+  }
+
+  getDeleteConfirmation() { //can be reused, need to add data param
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    return dialogRef.afterClosed();
   }
 }
