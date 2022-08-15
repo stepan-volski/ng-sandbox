@@ -71,8 +71,6 @@ export class BoardgamePageComponent
 
 // UI: clean up header position and icons
 // UI: game details page
-
-// feature: if user is not logged in, redirect from game details page to main page
-
 // refactor: split main page into components
-// refactor: auth service + auth effects
+
+

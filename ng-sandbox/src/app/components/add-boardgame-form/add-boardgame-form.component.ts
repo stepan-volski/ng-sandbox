@@ -21,11 +21,13 @@ export class AddBoardgameFormComponent implements OnInit {
   ngOnInit(): void {}
 
   addGame(form: NgForm) {
-    const name: string = form.value.name;
-    const type: BoardgameType = form.value.type;
-    const date: string = form.value.date;
-    const timesPlayed: number = form.value.timesPlayed;
     const owner = this.authServ.getLoggedInUser();
-    this.gameServ.addGame(new Boardgame(name, type, date, timesPlayed, owner));
+    if (owner) {
+      const name: string = form.value.name;
+      const type: BoardgameType = form.value.type;
+      const date: string = form.value.date;
+      const timesPlayed: number = form.value.timesPlayed;
+      this.gameServ.addGame(new Boardgame(name, type, date, timesPlayed, owner));
+    }
   }
 }

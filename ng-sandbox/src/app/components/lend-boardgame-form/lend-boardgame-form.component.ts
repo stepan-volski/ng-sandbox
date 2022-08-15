@@ -26,7 +26,7 @@ export class LendBoardgameFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.game = { ...this.data.game };
-    this.authService.getUserListFromApi().subscribe({
+    this.authService.getUsers().subscribe({
       next: (users) => {
         this.users = users;
       },
