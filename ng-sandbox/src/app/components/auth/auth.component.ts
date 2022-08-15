@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { LoginType } from 'src/app/models/loginType';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { AppState } from 'src/app/store/app.reducer';
 
 @Component({
@@ -14,6 +15,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
+    public dialogServ: DialogService
   ) {}
 
   loggedInUser: User | null = null;
@@ -27,7 +29,7 @@ export class AuthComponent implements OnInit {
   }
 
   login(type: LoginType) {
-    this.authService.login(type);
+    this.dialogServ.openLogin(type);
   }
 
   logOut() {

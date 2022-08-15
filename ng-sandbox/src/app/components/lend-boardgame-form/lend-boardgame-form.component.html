@@ -7,7 +7,7 @@
         <mat-option
           *ngFor="let user of users"
           [value]="user"
-          [disabled]="user.id === authService.getLoggedInUser().id"
+          [disabled]="user.id === authService.getLoggedInUser()?.id"
           >{{ user.email }}</mat-option
         >
       </mat-select>
