@@ -20,6 +20,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -45,6 +49,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     ClipboardModule,
     MatExpansionModule,
     MatSidenavModule,
+    MatListModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   exports: [
     CommonModule,
@@ -68,6 +76,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     ClipboardModule,
     MatExpansionModule,
     MatSidenavModule,
+    MatListModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
 })
 export class SharedModule {}

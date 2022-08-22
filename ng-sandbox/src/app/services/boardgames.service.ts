@@ -124,4 +124,5 @@ export class BoardgamesService {
       'data:text/json;charset=UTF-8,' + encodeURIComponent(json)
     );
   }
+
 }

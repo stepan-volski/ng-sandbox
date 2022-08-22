@@ -1,20 +1,29 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
-import { BoardgamesService } from 'src/app/services/boardgames.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { GameCardComponent } from '../game-card/game-card.component';
-import { DialogService } from 'src/app/services/dialog.service';
-import { Store } from '@ngrx/store';
 import { User } from 'src/app/models/user';
+import { BggGameService } from 'src/app/services/bgg-game.service';
+import { BoardgamesService } from 'src/app/services/boardgames.service';
+import { DialogService } from 'src/app/services/dialog.service';
+import { UiService } from 'src/app/services/ui.service';
 import { AppState } from 'src/app/store/app.reducer';
+import { GameCardComponent } from '../game-card/game-card.component';
 
 @Component({
   selector: 'app-boardgame-page',
   templateUrl: './boardgame-page.component.html',
   styleUrls: ['./boardgame-page.component.scss'],
 })
-
 export class BoardgamePageComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
@@ -28,21 +37,27 @@ export class BoardgamePageComponent
   displayedItems!: number;
   boardgameType = BoardgameType;
   loggedInUser: User | null = null;
-  isSidenavExpanded = false;
+  isSidenavExpanded: boolean = false;
+  isDisplayTableView: boolean = false;
 
   constructor(
     public gameServ: BoardgamesService,
+    public bggServ: BggGameService,
     public dialogServ: DialogService,
+    public uiServ: UiService,
     private cd: ChangeDetectorRef,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.store.subscribe(state => {
-      this.boardgames = state.games.games;
+    this.store.subscribe((state) => {
+      this.boardgames = state.games.games;  //is it correct store usage, or should games (user, items etc) be observable?
       this.displayedItems = state.games.games.length;
       this.loggedInUser = state.auth.user;
+      this.isSidenavExpanded = state.ui.isSidenavExpanded;
+      this.isDisplayTableView = state.ui.isDisplayTableView;
     });
+
     if (this.loggedInUser) {
       this.gameServ.getUserGames(this.loggedInUser.id);
     }
@@ -60,17 +75,30 @@ export class BoardgamePageComponent
   }
 
   toggleSidenav() {
-    this.isSidenavExpanded = !this.isSidenavExpanded;
+    this.uiServ.toggleSidenav();
+  }
+
+  displayTableView() {
+    this.uiServ.displayTableView();
+  }
+
+  displayGridView() {
+    this.uiServ.displayGridView();
   }
 
   ngOnDestroy(): void {
     this.filterSub.unsubscribe();
   }
-
 }
 
-// UI: clean up header position and icons
-// UI: game details page
+// combine edit game form and add game form
+// continue to game details after log in
+// drag-and-drop (for lend game? or for game thumbnail)
+// game video in iframe on details page
+// add truncation to long names
+// separate page for nonLoggedIn user, get rid of loggedIn checks
+
 // refactor: split main page into components
-
-
+// move interface state (selectedfilter, game, search etc) to store. All this should be as observables.
+// redesign card: remove date, set min size
+// table, mark selected item

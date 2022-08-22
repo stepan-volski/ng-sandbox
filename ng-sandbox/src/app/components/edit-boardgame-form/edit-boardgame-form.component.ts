@@ -13,7 +13,7 @@ export class EditBoardgameFormComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {game: Boardgame},
-    private gServ: BoardgamesService,
+    private gameServ: BoardgamesService,
     ) { }
 
   boardgameType = BoardgameType;
@@ -24,7 +24,7 @@ export class EditBoardgameFormComponent implements OnInit {
   }
 
   saveGame(){
-    this.gServ.editGame(this.game);
+    this.gameServ.editGame(this.game);
   }
 
 }
