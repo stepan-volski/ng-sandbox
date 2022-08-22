@@ -20,6 +20,7 @@ img {
 .thumbnail {
   display: flex;
   justify-content: center;
+  margin-bottom: 7px;
 }
 
 mat-icon {
@@ -29,7 +30,8 @@ mat-icon {
 
 .icons {
   position: absolute;
-  right: 5px;
+  right: 0px;
+  top: 7px;
 }
 
 .red {

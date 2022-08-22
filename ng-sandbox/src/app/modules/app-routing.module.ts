@@ -13,10 +13,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./game-details.module').then((x) => x.GameDetailsModule),
   },
-  {
-    path: 'arrays',
-    loadChildren: () => import('./arrays.module').then((x) => x.ArraysModule),
-  },
 ];
 
 @NgModule({

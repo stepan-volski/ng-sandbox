@@ -1,0 +1,34 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+tr.mat-row:hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+tr.mat-row:active {
+  background: #efefef;
+}
+
+.game-preview {
+  padding-top: 70px;
+}
+
+.table {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+}

@@ -10,6 +10,7 @@ export class Boardgame {
     public purchaseDate: string,
     public timesPlayed: number,
     public owner: User,
+    public imageUrl: string = '../../../assets/game-icon.png',
   ) {
     this.id = Math.random().toString(16).slice(2);
   }

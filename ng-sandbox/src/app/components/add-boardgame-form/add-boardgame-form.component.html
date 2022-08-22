@@ -1,10 +1,35 @@
 <h1 mat-dialog-title>New Boardgame</h1>
 <div mat-dialog-content>
   <form (ngSubmit)="addGame(newBoardgame)" #newBoardgame="ngForm">
+    <div class="nameGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          #nameInput
+          name="name"
+          [ngModel]="bggGameName"
+          required
+        />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
-      <input matInput name="name" ngModel required>
+      <button mat-raised-button type="button" (click)="searchBgg(newBoardgame)">
+        Search BGG
+      </button>
+    </div>
+
+    <img *ngIf="gameThumb" [src]="gameThumb" alt="" />
+
+    <mat-form-field appearance="fill" *ngIf="searchResults">
+      <mat-label>Games found on BGG:</mat-label>
+      <mat-select name="bggName" ngModel>
+        <mat-option
+          *ngFor="let result of searchResults | async"
+          [value]="result"
+          (click)="onSelectFromBggSearch(result)"
+          >{{ result.name }}</mat-option
+        >
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -18,19 +43,28 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Times Played</mat-label>
-      <input matInput name="timesPlayed" ngModel required>
+      <input matInput name="timesPlayed" ngModel required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Date Purchased</mat-label>
-      <input matInput [matDatepicker]="picker" name="date" ngModel required>
+      <input matInput [matDatepicker]="picker" name="date" ngModel required />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <button mat-raised-button mat-dialog-close color="primary" type="submit" [disabled]="!newBoardgame.valid">Add Game</button>
-    <button mat-button mat-dialog-close>Close</button>
+
+    <div class="submitGroup">
+      <button
+        mat-raised-button
+        mat-dialog-close
+        color="primary"
+        type="submit"
+        [disabled]="!newBoardgame.valid"
+      >
+        Add Game
+      </button>
+      <button mat-button mat-dialog-close>Close</button>
+    </div>
   </form>
 </div>
-
-

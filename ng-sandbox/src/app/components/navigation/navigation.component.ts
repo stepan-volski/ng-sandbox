@@ -13,10 +13,6 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToArrays(){
-  this.router.navigate(['/arrays'])
-  }
-
   goToBoardgames(){
   this.router.navigate(['/games'])
   }

@@ -2,7 +2,7 @@
   <mat-drawer #drawer class="sidenav" mode="side">
     <div class="accordions">
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>import_export</mat-icon>
@@ -24,7 +24,7 @@
       </mat-accordion>
 
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="!isDisplayTableView" [disabled]="isDisplayTableView">
           <mat-expansion-panel-header>
             <mat-panel-title> <mat-icon>filter_alt</mat-icon> </mat-panel-title>
             <mat-panel-description> Filters and sorting </mat-panel-description>
@@ -83,16 +83,35 @@
   </mat-drawer>
 
   <div class="sidenav-content">
-    <button *ngIf="loggedInUser"
-      type="button"
-      mat-button
-      (click)="drawer.toggle()"
-      (click)="toggleSidenav()"
-    >
-      <mat-icon *ngIf="!isSidenavExpanded">keyboard_arrow_right</mat-icon>
-      <mat-icon *ngIf="isSidenavExpanded">keyboard_arrow_left</mat-icon>
-    </button>
-    <div class="cards">
+    <div class="side-controls">
+      <button
+        *ngIf="loggedInUser"
+        type="button"
+        mat-button
+        (click)="drawer.toggle()"
+        (click)="toggleSidenav()"
+      >
+        <mat-icon *ngIf="!isSidenavExpanded" matTooltip="Expand actions panel"
+          >keyboard_arrow_right</mat-icon
+        >
+        <mat-icon *ngIf="isSidenavExpanded" matTooltip="Collapse actions panel"
+          >keyboard_arrow_left</mat-icon
+        >
+      </button>
+      <button
+        *ngIf="loggedInUser"
+        type="button"
+        mat-button
+      >
+        <mat-icon *ngIf="!isDisplayTableView" (click)="displayTableView()" matTooltip="Switch to table view"
+          >list</mat-icon
+        >
+        <mat-icon *ngIf="isDisplayTableView" (click)="displayGridView()" matTooltip="Switch to grid view"
+          >grid_view</mat-icon
+        >
+      </button>
+    </div>
+    <div class="cards" *ngIf="!isDisplayTableView">
       <app-game-card
         *ngFor="
           let game of boardgames
@@ -103,12 +122,17 @@
         [game]="game"
         [loggedInUser]="loggedInUser"
       ></app-game-card>
-      <div class="placeholder" *ngIf="!displayedItems && loggedInUser">
-        There are no items
-      </div>
-      <div class="placeholder" *ngIf="!displayedItems && !loggedInUser">
-        Log in to view games
-      </div>
+    </div>
+
+    <div class="table" *ngIf="isDisplayTableView">
+      <app-games-table></app-games-table>
+    </div>
+
+    <!-- <div class="placeholder" *ngIf="!displayedItems && loggedInUser">
+      There are no items
+    </div> -->
+    <div class="placeholder" *ngIf="!displayedItems && !loggedInUser">
+      Log in to view games
     </div>
   </div>
 </mat-drawer-container>

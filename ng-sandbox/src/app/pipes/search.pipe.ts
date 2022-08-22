@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Boardgame } from './models/boardgame';
+import { Boardgame } from '../models/boardgame';
 
 @Pipe({
   name: 'search',
