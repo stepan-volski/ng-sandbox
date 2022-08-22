@@ -29,7 +29,7 @@
             <mat-panel-title> <mat-icon>filter_alt</mat-icon> </mat-panel-title>
             <mat-panel-description> Filters and sorting </mat-panel-description>
           </mat-expansion-panel-header>
-          <section class="control-section">
+          <!-- <section class="control-section">
             <h3>Filter Type:</h3>
             <mat-button-toggle-group [(ngModel)]="filterType">
               <mat-button-toggle value="all">All</mat-button-toggle>
@@ -76,7 +76,8 @@
 
           <section class="control-section">
             <h3>Displayed Items: {{ displayedItems }}</h3>
-          </section>
+          </section> -->
+          <app-filters></app-filters>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

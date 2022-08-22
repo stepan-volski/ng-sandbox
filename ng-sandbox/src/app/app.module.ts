@@ -7,13 +7,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { LendBoardgameFormComponent } from './components/lend-boardgame-form/lend-boardgame-form.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { SharedModule } from './modules/shared.module';
 import { appReducers } from './store/app.reducer';
-import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +31,12 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     AppRoutingModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
