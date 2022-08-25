@@ -66,6 +66,7 @@
         <tr
           mat-row
           *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{'highlight': selectedGame?.id === row.id}"
           (click)="selectGame(row)"
         ></tr>
 

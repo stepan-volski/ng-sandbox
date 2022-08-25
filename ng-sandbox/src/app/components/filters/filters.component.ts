@@ -1,58 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { Boardgame } from 'src/app/models/boardgame';
+import { Subject } from 'rxjs';
 import { BoardgameType } from 'src/app/models/boardgameType';
 import { AppState } from 'src/app/store/app.reducer';
+import {
+  Search,
+  SetFilterType,
+  SetSortDirection,
+  SetSortType
+} from 'src/app/store/filters.actions';
 
 export enum SortDirection {
-  Asc = "asc",
-  Desc = "desc",
+  Asc = 'asc',
+  Desc = 'desc',
 }
 
 export enum SortType {
-  Name = "name",
-  Date = "date",
-  PlayTime = "playTime",
-  None = "none",
+  Name = 'name',
+  Date = 'date',
+  PlayTime = 'playTime',
+  None = 'none',
 }
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss']
+  styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent implements OnInit {
-
-  filterSub!: Subscription;
-  boardgames: Boardgame[] = [];
-  sortDirection: 'asc' | 'desc' = 'asc';
-  sortType: 'name' | 'date' | 'playTime' | 'none' = 'none';
-  filterType: BoardgameType | 'all' = 'all';
+  @Input() itemsCount?: Subject<number>;
+  sortDirection?: SortDirection;
+  sortType?: SortType;
+  filterType?: BoardgameType | 'all';
   searchRequest: string = '';
-  displayedItems!: number;
   boardgameType = BoardgameType;
 
-  constructor(    private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    // this.store.subscribe((state) => {
-    //   this.sortDirection = state.filters.sortDirection;
-    //   this.filterType = state.filters.filterType;
-    //   this.sortType = state.filters.sortType;
-    //   this.searchRequest = state.filters.searchRequest;
-    // });
+    this.store.subscribe((state) => {
+      this.sortDirection = state.filters.sortDirection;
+      this.filterType = state.filters.filterType;
+      this.sortType = state.filters.sortType;
+      this.searchRequest = state.filters.searchRequest;
+    });
+
+    this.itemsCount?.subscribe();
   }
 
-  // ngAfterViewInit(): void {
-  //   this.filterSub = this.cards.changes.subscribe((value) => {
-  //     this.displayedItems = value.length;
-  //     this.cd.detectChanges();
-  //   });
-  // }
-
-  setFilterType() {
-    setFilterType
+  onFilterTypeChange(value: BoardgameType | 'all') {
+    this.store.dispatch(new SetFilterType(value));
   }
 
+  onSortDirectionChange(value: SortDirection) {
+    this.store.dispatch(new SetSortDirection(value));
+  }
+
+  onSortTypeChange(value: SortType) {
+    this.store.dispatch(new SetSortType(value));
+  }
+
+  onSearchChange() {
+    this.store.dispatch(new Search(this.searchRequest));
+  }
 }

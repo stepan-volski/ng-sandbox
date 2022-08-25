@@ -11,6 +11,7 @@ export class Boardgame {
     public timesPlayed: number,
     public owner: User,
     public imageUrl: string = '../../../assets/game-icon.png',
+    public description: string = '',
   ) {
     this.id = Math.random().toString(16).slice(2);
   }

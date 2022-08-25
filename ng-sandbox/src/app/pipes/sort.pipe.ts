@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SortDirection, SortType } from '../components/filters/filters.component';
 import { Boardgame } from '../models/boardgame';
 
 @Pipe({
@@ -7,7 +8,7 @@ import { Boardgame } from '../models/boardgame';
 })
 export class SortPipe implements PipeTransform {
 
-  transform(value: Boardgame[], sortType: string, sortDirection: 'asc' | 'desc'): Boardgame[] {
+  transform(value: Boardgame[], sortType: SortType, sortDirection: SortDirection): Boardgame[] {
     let games = [...value];
     let result: Boardgame[] = [];
 

@@ -1,7 +1,7 @@
 <div>
   <section class="control-section">
     <h3>Filter Type:</h3>
-    <mat-button-toggle-group [(ngModel)]="filterType">
+    <mat-button-toggle-group (change)="onFilterTypeChange($event.value)" value="all">
       <mat-button-toggle value="all">All</mat-button-toggle>
       <mat-button-toggle [value]="boardgameType.Euro"
         >Euro</mat-button-toggle
@@ -17,7 +17,7 @@
 
   <section class="control-section">
     <h3>Sort Direction:</h3>
-    <mat-button-toggle-group [(ngModel)]="sortDirection">
+    <mat-button-toggle-group (change)="onSortDirectionChange($event.value)" value="asc">
       <mat-button-toggle value="asc">Ascending</mat-button-toggle>
       <mat-button-toggle value="desc">Descending</mat-button-toggle>
     </mat-button-toggle-group>
@@ -25,7 +25,7 @@
 
   <section class="control-section">
     <h3>Sort Type:</h3>
-    <mat-button-toggle-group [(ngModel)]="sortType">
+    <mat-button-toggle-group (change)="onSortTypeChange($event.value)" value="none">
       <mat-button-toggle value="none">None</mat-button-toggle>
       <mat-button-toggle value="name">Name</mat-button-toggle>
       <mat-button-toggle value="date">Date</mat-button-toggle>
@@ -40,11 +40,12 @@
         matInput
         placeholder="Search by name"
         [(ngModel)]="searchRequest"
+        (change)="onSearchChange()"
       />
     </mat-form-field>
   </section>
 
   <section class="control-section">
-    <h3>Displayed Items: {{ displayedItems }}</h3>
+    <h3>Displayed Items: {{ itemsCount | async }}</h3>
   </section>
 </div>

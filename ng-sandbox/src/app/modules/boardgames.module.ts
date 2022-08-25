@@ -13,6 +13,7 @@ import { GamesTableComponent } from '../components/games-table/games-table.compo
 import { FilterPipe } from '../pipes/filter.pipe';
 import { SearchPipe } from '../pipes/search.pipe';
 import { SortPipe } from '../pipes/sort.pipe';
+import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthEffects } from '../store/auth.effects';
 import { authReducer } from '../store/auth.reducer';
 import { boardgamesReducer } from '../store/boardgames.reducer';
@@ -21,7 +22,13 @@ import { UIEffects } from '../store/ui.effects';
 import { uiReducer } from '../store/ui.reducer';
 import { SharedModule } from './shared.module';
 
-const routes: Routes = [{ path: '', component: BoardgamePageComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    component: BoardgamePageComponent,
+    canActivate: [AuthGuardService],
+  },
+];
 
 const BOARDGAMES_REDUCER_TOKEN = new InjectionToken<any>('Boardgame Reducer');
 const AUTH_REDUCER_TOKEN = new InjectionToken<any>('Auth Reducer');
@@ -68,6 +75,7 @@ const FILTERS_REDUCER_TOKEN = new InjectionToken<any>('Filters Reducer');
       provide: FILTERS_REDUCER_TOKEN,
       useFactory: () => filtersReducer,
     },
+    AuthGuardService,
   ],
 })
 export class BoardgamesModule {}

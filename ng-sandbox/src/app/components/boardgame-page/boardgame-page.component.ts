@@ -8,6 +8,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs/internal/Subject';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Boardgame } from 'src/app/models/boardgame';
 import { BoardgameType } from 'src/app/models/boardgameType';
@@ -17,6 +18,7 @@ import { BoardgamesService } from 'src/app/services/boardgames.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UiService } from 'src/app/services/ui.service';
 import { AppState } from 'src/app/store/app.reducer';
+import { SortDirection, SortType } from '../filters/filters.component';
 import { GameCardComponent } from '../game-card/game-card.component';
 
 @Component({
@@ -30,8 +32,8 @@ export class BoardgamePageComponent
   @ViewChildren(GameCardComponent) cards!: QueryList<GameCardComponent>;
   filterSub!: Subscription;
   boardgames: Boardgame[] = [];
-  sortDirection: 'asc' | 'desc' = 'asc';
-  sortType: 'name' | 'date' | 'playTime' | 'none' = 'none';
+  sortDirection: SortDirection = SortDirection.Asc;
+  sortType: SortType = SortType.None;
   filterType: BoardgameType | 'all' = 'all';
   searchRequest: string = '';
   displayedItems!: number;
@@ -39,6 +41,7 @@ export class BoardgamePageComponent
   loggedInUser: User | null = null;
   isSidenavExpanded: boolean = false;
   isDisplayTableView: boolean = false;
+  itemsCount = new Subject<number>();
 
   constructor(
     public gameServ: BoardgamesService,
@@ -56,16 +59,21 @@ export class BoardgamePageComponent
       this.loggedInUser = state.auth.user;
       this.isSidenavExpanded = state.ui.isSidenavExpanded;
       this.isDisplayTableView = state.ui.isDisplayTableView;
+      this.filterType = state.filters.filterType;
+      this.sortDirection = state.filters.sortDirection;
+      this.sortType = state.filters.sortType;
+      this.searchRequest = state.filters.searchRequest;
     });
 
     if (this.loggedInUser) {
       this.gameServ.getUserGames(this.loggedInUser.id);
     }
+
   }
 
   ngAfterViewInit(): void {
     this.filterSub = this.cards.changes.subscribe((value) => {
-      this.displayedItems = value.length;
+      this.itemsCount.next(value.length);
       this.cd.detectChanges();
     });
   }
@@ -91,14 +99,4 @@ export class BoardgamePageComponent
   }
 }
 
-// combine edit game form and add game form
-// continue to game details after log in
 // drag-and-drop (for lend game? or for game thumbnail)
-// game video in iframe on details page
-// add truncation to long names
-// separate page for nonLoggedIn user, get rid of loggedIn checks
-
-// refactor: split main page into components
-// move interface state (selectedfilter, game, search etc) to store. All this should be as observables.
-// redesign card: remove date, set min size
-// table, mark selected item

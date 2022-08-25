@@ -22,9 +22,11 @@ export class AddBoardgameFormComponent implements OnInit {
 
   @ViewChild('nameInput') nameInput?: ElementRef<HTMLInputElement>;
   boardgameType = BoardgameType;
-  gameThumb?: string;
-  searchResults?: Observable<BggGameShort[]>;
+  thumbnailUrl?: string;
   bggGameName?: string;
+  description?: string;
+  searchResults?: Observable<BggGameShort[]>;
+
 
   ngOnInit(): void {}
 
@@ -35,9 +37,8 @@ export class AddBoardgameFormComponent implements OnInit {
       const type: BoardgameType = form.value.type;
       const date: string = form.value.date;
       const timesPlayed: number = form.value.timesPlayed;
-      const imageUrl = this.gameThumb;
       this.gameServ.addGame(
-        new Boardgame(name, type, date, timesPlayed, owner, imageUrl)
+        new Boardgame(name, type, date, timesPlayed, owner, this.thumbnailUrl, this.description)
       );
     }
   }
@@ -49,9 +50,10 @@ export class AddBoardgameFormComponent implements OnInit {
 
   onSelectFromBggSearch(searchResult: BggGameShort) {
     const id = searchResult.id;
-    this.bggGameServ.getGameImgById(id).subscribe((imgUrl) => {
-      this.gameThumb = imgUrl!;
+    this.bggGameServ.getGameById(id).subscribe((response) => {
+      this.thumbnailUrl = response.getElementsByTagName('thumbnail')[0].textContent!;
       this.bggGameName = searchResult.name;
+      this.description = response.getElementsByTagName('description')[0].textContent!;
     });
   }
 }

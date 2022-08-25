@@ -9,6 +9,7 @@ import { User } from '../models/user';
 import { AppState } from '../store/app.reducer';
 import { AuthFail, AuthSuccess, LogOut, SetUser } from '../store/auth.actions';
 import { SetGames } from '../store/boardgames.actions';
+import { DeselectGame } from '../store/ui.actions';
 import { DialogService } from './dialog.service';
 import { ToastMessageService } from './toast-message.service';
 
@@ -17,6 +18,7 @@ import { ToastMessageService } from './toast-message.service';
 })
 export class AuthService {
   loggedInUser: User | null = null;
+  public redirectUrl: string = '';
 
   constructor(
     private toastSrv: ToastMessageService,
@@ -59,6 +61,12 @@ export class AuthService {
         );
         localStorage.setItem('user', JSON.stringify(user));
         this.store.dispatch(new AuthSuccess(user));
+        if (this.redirectUrl) {
+          this.router.navigateByUrl(this.redirectUrl);
+          this.redirectUrl = '';
+        } else {
+          this.router.navigate(['/games']);
+        }
       },
       error: (error) => {
         this.toastSrv.showErrorMessage(error.error.error.message);
@@ -80,6 +88,7 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(user));
         this.addNewUser(user);
         this.store.dispatch(new AuthSuccess(user));
+        this.router.navigate(['/games']);
       },
       error: (error) => {
         this.toastSrv.showErrorMessage(error.error.error.message);
@@ -91,9 +100,11 @@ export class AuthService {
   public logOut() {
     this.store.dispatch(new LogOut());
     localStorage.removeItem('user');
+    this.loggedInUser = null;
     this.store.dispatch(new SetGames([]));
+    this.store.dispatch(new DeselectGame());
     this.toastSrv.showSuccessMessage('User is logged out');
-    this.router.navigate(['/games'])
+    this.router.navigate(['/login'])
   }
 
   public getUsers() {
