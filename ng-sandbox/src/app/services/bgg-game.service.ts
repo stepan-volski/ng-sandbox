@@ -24,16 +24,6 @@ export class BggGameService {
     );
   }
 
-  // public getGameImgById(id: string) {
-  //   const url = `https://boardgamegeek.com/xmlapi2/thing?id=${id}`;
-  //   return this.http.get(url, { responseType: 'text' }).pipe(
-  //     map((resp) => {
-  //       const doc = this.parser.parseFromString(resp, 'text/xml');
-  //       return doc.getElementsByTagName('thumbnail')[0].textContent;
-  //     })
-  //   );
-  // }
-
   public getGameById(id: string) {
     const url = `https://boardgamegeek.com/xmlapi2/thing?id=${id}`;
     return this.http.get(url, { responseType: 'text' }).pipe(
